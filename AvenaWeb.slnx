@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="AvenaCore/AvenaCore.csproj" Id="c10d8a9b-ec10-4c53-ad8e-d808fb255986" />
   <Project Path="AvenaWeb/AvenaWeb.csproj" />
 </Solution>
