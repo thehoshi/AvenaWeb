@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="AvenaCore/AvenaCore.csproj" Id="c10d8a9b-ec10-4c53-ad8e-d808fb255986" />
+  <Project Path="AvenaPersistentSqlServer/AvenaPersistentSqlServer.csproj" Id="a89652aa-d9c5-4c5a-b76a-2801e9afde12" />
   <Project Path="AvenaWeb/AvenaWeb.csproj" />
 </Solution>
