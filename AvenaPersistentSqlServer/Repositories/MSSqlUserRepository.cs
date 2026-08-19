@@ -31,7 +31,7 @@ namespace AvenaPersistentSqlServer.Repositories
                     {
                         var user = new User()
                         {
-                            ID = Convert.ToInt32(reader["UserID"]),
+                            ID = Convert.ToInt32(reader["ID"]),
                             Username = (string)reader["Username"],
                             Name = (string)reader["Nickname"],
                             Password = (string)reader["Password"],
@@ -45,31 +45,31 @@ namespace AvenaPersistentSqlServer.Repositories
         }
         #endregion
 
-        //#region Insert
-        //public void Insert(User user)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(_connectionString))
-        //    {
-        //        connection.Open();
+        #region Insert
+        public void Insert(User user)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
 
-        //        string query = "INSERT INTO User (Username, Name, Password, AvatarImg) " +
-        //            "VALUES(@CustomerID,@AccountNumber,@Balance,@AccountType,@Currency, GETDATE() )";
-        //        using (SqlCommand command = new SqlCommand(query, connection))
-        //        {
-        //            command.Parameters.AddWithValue("@CustomerID", account.CustomerID);
-        //            command.Parameters.AddWithValue("@AccountNumber", account.AccountNumber);
-        //            command.Parameters.AddWithValue("@Balance", account.Balance);
-        //            command.Parameters.AddWithValue("@AccountType", account.AccountType ?? (object)DBNull.Value);
-        //            command.Parameters.AddWithValue("@Currency", account.Currency);
+                string query = "INSERT INTO User (Username, Name, PasswordHash, AvatarImg) " +
+                    "VALUES(@ID,@Name,@PasswordHash,@AvatarImg)";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ID", user.ID);
+                    command.Parameters.AddWithValue("@Username", user.Username);
+                    command.Parameters.AddWithValue("@Name", user.Name);
+                    command.Parameters.AddWithValue("@PasswordHash", user.Password);
+                    command.Parameters.AddWithValue("@AvatarImg", user.AvatarImg);
 
-        //            int rowsCount = command.ExecuteNonQuery();
-        //            if (rowsCount != 1)
-        //                throw new Exception("Something went wrong while updating user");
-        //            else
-        //                Console.WriteLine("The operation was completed successfully");
-        //        }
-        //    }
-        //}
-        //#endregion
+                    int rowsCount = command.ExecuteNonQuery();
+                    if (rowsCount != 1)
+                        throw new Exception("Something went wrong while updating user");
+                    else
+                        Console.WriteLine("The operation was completed successfully");
+                }
+            }
+        }
+        #endregion
     }
 }
