@@ -14,7 +14,7 @@ public class NewsModel : PageModel
 
     public News? News { get; private set; }
     public Genre? Genre { get; private set; }
-    public List<Comment> Comments { get; private set; } = new();
+    public List<CommentWithUser> Comments { get; private set; } = new();
 
     public NewsModel(
         INewsRepository newsRepository,
@@ -35,7 +35,7 @@ public class NewsModel : PageModel
 
         Genre = _genreRepository.GetByID(News.GenreID);
 
-        Comments = _commentRepository.GetByNewsID(id);
+        Comments = _commentRepository.GetByNewsIdWithUser(id);
 
         return Page();
     }

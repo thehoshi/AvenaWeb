@@ -52,7 +52,7 @@ namespace AvenaPersistentSqlServer.Repositories
 
         #endregion
 
-        #region GetByNewsId
+        #region GetByNewsID
 
         public List<Comment> GetByNewsID(int newsId)
         {
@@ -94,6 +94,59 @@ namespace AvenaPersistentSqlServer.Repositories
             return comments;
         }
 
+        #endregion
+
+        #region GetByNewsIdWithUser
+        public List<CommentWithUser> GetByNewsIdWithUser(int newsId)
+        {
+            var comments = new List<CommentWithUser>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = """
+            SELECT
+                c.ID,
+                c.NewsID,
+                c.UserID,
+                c.Text,
+                c.CountOfLikes,
+                c.DateOfPost,
+                u.Username,
+                u.Name
+            FROM Comment c
+            INNER JOIN [User] u ON c.UserID = u.ID
+            WHERE c.NewsID = @NewsID
+            ORDER BY c.DateOfPost ASC
+            """;
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@NewsID", newsId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            comments.Add(new CommentWithUser
+                            {
+                                ID = Convert.ToInt32(reader["ID"]),
+                                NewsID = Convert.ToInt32(reader["NewsID"]),
+                                UserID = Convert.ToInt32(reader["UserID"]),
+                                Text = (string)reader["Text"],
+                                CountOfLikes = Convert.ToInt32(reader["CountOfLikes"]),
+                                DateOfPost = Convert.ToDateTime(reader["DateOfPost"]),
+                                Username = (string)reader["Username"],
+                                Name = (string)reader["Name"]
+                            });
+                        }
+                    }
+                }
+            }
+
+            return comments;
+        }
         #endregion
 
         #region Insert

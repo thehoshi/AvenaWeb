@@ -34,9 +34,10 @@
         }
         else
         {
-            foreach (var comment in Model.Comments)
+            @foreach (var comment in Model.Comments)
             {
                 <article>
+                    <strong>@comment.Username</strong>
                     <p>@comment.Text</p>
                 </article>
             }
