@@ -7,5 +7,6 @@ namespace AvenaCore.Repositories
 {
     public interface INewsRepository : IBaseRepository<News>
     {
+        List<News> GetByGenreId(int genreId);
     }
 }

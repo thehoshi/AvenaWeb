@@ -1,5 +1,36 @@
 ﻿@page
 @model IndexModel
+
+<h1>Avena News</h1>
+
+<div class="genres">
+    @foreach (var genre in Model.Genres)
+    {
+        <a href="/genre/@genre.ID">
+            @genre.NameGenre
+        </a>
+    }
+</div>
+
+@foreach (var news in Model.News)
+{
+    <article>
+         <h2>
+            <a href="/news/@news.ID">
+                @news.Title
+            </a>
+        </h2>
+        <p>@news.Info</p>
+        <p>
+            Views: @news.Views |
+            Likes: @news.CountOfLikes |
+            Genre ID: @news.GenreID
+        </p>
+    </article>
+}
+@*
+@page
+@model IndexModel
 @{
     ViewData["Title"] = "Avena";
 }
@@ -263,4 +294,4 @@
                 <a href="#">LinkedIn</a>
             </div>
         </div>
-    </footer>
+    </footer> *@

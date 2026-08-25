@@ -1,0 +1,32 @@
+﻿@page "/genre/{id:int}"
+@model GenreModel
+
+@{
+    ViewData["Title"] = Model.Genre?.NameGenre;
+}
+
+<h1>@Model.Genre?.NameGenre</h1>
+
+@if (!Model.News.Any())
+{
+    <p>No news in this genre yet.</p>
+}
+else
+{
+    foreach (var news in Model.News)
+    {
+        <article>
+            <h2>
+                <a href="/news/@news.ID">
+                    @news.Title
+                </a>
+            </h2>
+            <p>@news.Info</p>
+
+            <small>
+                Views: @news.Views |
+                Likes: @news.CountOfLikes
+            </small>
+        </article>
+    }
+}

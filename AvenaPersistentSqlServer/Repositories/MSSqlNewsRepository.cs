@@ -15,37 +15,108 @@ namespace AvenaPersistentSqlServer.Repositories
             _connectionString = connectionString;
         }
 
-        #region GetAll
-        public List<News> GetAll()
+        #region GetByGenreId
+        public List<News> GetByGenreId(int genreId)
         {
-            var News = new List<News>();
+            var newsList = new List<News>();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                string query = "SELECT * FROM News";
+
+                string query = """
+            SELECT ID, Title, Info, Image, DateOfPost,
+                   Views, CountOfLikes, GenreID, DeletedAt
+            FROM News
+            WHERE GenreID = @GenreID
+              AND DeletedAt IS NULL
+            ORDER BY DateOfPost DESC
+            """;
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@GenreID", genreId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            newsList.Add(new News
+                            {
+                                ID = Convert.ToInt32(reader["ID"]),
+                                Title = (string)reader["Title"],
+                                Info = (string)reader["Info"],
+
+                                Image = reader["Image"] == DBNull.Value
+                                    ? null
+                                    : (string)reader["Image"],
+
+                                DateOfPost = Convert.ToDateTime(reader["DateOfPost"]),
+                                Views = Convert.ToInt32(reader["Views"]),
+                                CountOfLikes = Convert.ToInt32(reader["CountOfLikes"]),
+                                GenreID = Convert.ToInt32(reader["GenreID"]),
+
+                                DeletedAt = reader["DeletedAt"] == DBNull.Value
+                                    ? null
+                                    : Convert.ToDateTime(reader["DeletedAt"])
+                            });
+                        }
+                    }
+                }
+            }
+
+            return newsList;
+        }
+        #endregion
+
+        #region GetAll
+        public List<News> GetAll()
+        {
+            var newsList = new List<News>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = """
+            SELECT ID, Title, Info, Image, DateOfPost,
+                   Views, CountOfLikes, GenreID, DeletedAt
+            FROM News
+            WHERE DeletedAt IS NULL
+            ORDER BY DateOfPost DESC
+            """;
+
                 using (var command = new SqlCommand(query, connection))
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var news = new News()
+                        var news = new News
                         {
                             ID = Convert.ToInt32(reader["ID"]),
                             Title = (string)reader["Title"],
                             Info = (string)reader["Info"],
-                            Image = (string)reader["Image"],
+
+                            Image = reader["Image"] == DBNull.Value
+                                ? null
+                                : (string)reader["Image"],
+
                             DateOfPost = Convert.ToDateTime(reader["DateOfPost"]),
                             Views = Convert.ToInt32(reader["Views"]),
                             CountOfLikes = Convert.ToInt32(reader["CountOfLikes"]),
                             GenreID = Convert.ToInt32(reader["GenreID"]),
-                            DeletedAt = Convert.ToDateTime(reader["DeletedAt"])
+
+                            DeletedAt = reader["DeletedAt"] == DBNull.Value
+                                ? null
+                                : Convert.ToDateTime(reader["DeletedAt"])
                         };
-                        News.Add(news);
+
+                        newsList.Add(news);
                     }
                 }
             }
-            return News;
+
+            return newsList;
         }
         #endregion
 
