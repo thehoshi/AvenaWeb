@@ -61,8 +61,13 @@ public class LoginModel : PageModel
         var principal = new ClaimsPrincipal(identity);
 
         await HttpContext.SignInAsync(
-        "AvenaCookie",
-        principal);
+    "AvenaCookie",
+    principal,
+    new AuthenticationProperties
+    {
+        IsPersistent = true,
+        ExpiresUtc = DateTimeOffset.UtcNow.AddDays(20)
+    });
 
         return RedirectToPage("/Index");
     }

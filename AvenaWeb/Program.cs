@@ -14,6 +14,9 @@ builder.Services.AddAuthentication("AvenaCookie")
     {
         options.LoginPath = "/Login";
         options.AccessDeniedPath = "/Login";
+
+        options.ExpireTimeSpan = TimeSpan.FromDays(20);
+        options.SlidingExpiration = true;
     });
 
 builder.Services.AddAuthorization();
