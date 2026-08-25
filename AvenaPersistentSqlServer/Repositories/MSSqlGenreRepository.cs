@@ -50,10 +50,9 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = "INSERT INTO Genre (NameGenre) " +
-                    "VALUES(@ID,@NameGenre)";
+                    "VALUES(@NameGenre)";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@ID", genre.ID);
                     command.Parameters.AddWithValue("@NameGenre", genre.NameGenre);
 
                     int rowsCount = command.ExecuteNonQuery();
@@ -63,6 +62,37 @@ namespace AvenaPersistentSqlServer.Repositories
                         Console.WriteLine("The operation was completed successfully");
                 }
             }
+        }
+        #endregion
+
+        #region GetById
+        public Genre? GetByID(int id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT ID, NameGenre FROM Genre WHERE ID = @ID";
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ID", id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Genre
+                            {
+                                ID = Convert.ToInt32(reader["ID"]),
+                                NameGenre = (string)reader["NameGenre"]
+                            };
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
         #endregion
     }

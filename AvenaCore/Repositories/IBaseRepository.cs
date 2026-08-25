@@ -8,5 +8,6 @@ namespace AvenaCore.Repositories
     {
         List<T> GetAll();
         void Insert(T entity);
+        T? GetByID(int id);
     }
 }

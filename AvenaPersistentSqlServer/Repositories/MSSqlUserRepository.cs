@@ -53,10 +53,9 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = "INSERT INTO User (Username, Name, PasswordHash, AvatarImg) " +
-                    "VALUES(@ID,@Name,@PasswordHash,@AvatarImg)";
+                    "VALUES(@Name,@PasswordHash,@AvatarImg)";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@ID", user.ID);
                     command.Parameters.AddWithValue("@Username", user.Username);
                     command.Parameters.AddWithValue("@Name", user.Name);
                     command.Parameters.AddWithValue("@PasswordHash", user.Password);
@@ -69,6 +68,44 @@ namespace AvenaPersistentSqlServer.Repositories
                         Console.WriteLine("The operation was completed successfully");
                 }
             }
+        }
+        #endregion
+
+        #region GetById
+        public User? GetByID(int id)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = """
+            SELECT ID, Username, Name, Password, AvatarImg
+            FROM [User]
+            WHERE ID = @ID
+            """;
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ID", id);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new User
+                            {
+                                ID = Convert.ToInt32(reader["ID"]),
+                                Username = (string)reader["Username"],
+                                Name = (string)reader["Name"],
+                                Password = (string)reader["Password"],
+                                AvatarImg = (string)reader["AvatarImg"]
+                            };
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
         #endregion
     }
