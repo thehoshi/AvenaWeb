@@ -689,3 +689,80 @@ h1, h2, h3, h4 {
         padding: 60px 20px 60px;
     }
 }
+.site-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    box-sizing: border-box;
+}
+
+.site-logo {
+    font-family: "Fraunces", serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: inherit;
+    text-decoration: none;
+}
+
+.menu-container {
+    position: relative;
+}
+
+.menu-button {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+
+    .menu-button span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: currentColor;
+    }
+
+.menu {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    min-width: 180px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 8px 0;
+    display: none;
+    z-index: 1000;
+}
+
+    .menu.open {
+        display: block;
+    }
+
+    .menu a,
+    .menu form button {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 18px;
+        border: none;
+        background: transparent;
+        text-align: left;
+        text-decoration: none;
+        color: #111;
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+        .menu a:hover,
+        .menu form button:hover {
+            background: #f3f3f3;
+        }

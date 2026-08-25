@@ -1,0 +1,52 @@
+﻿@page
+@model CreateNewsModel
+
+@{
+    ViewData["Title"] = "Create News";
+}
+
+<h1>Create News</h1>
+
+<form method="post">
+
+    <div>
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" required />
+    </div>
+
+    <br />
+
+    <div>
+        <label asp-for="Info">Article text</label>
+        <br />
+        <textarea asp-for="Info"
+                  rows="10"
+                  cols="60"
+                  required></textarea>
+    </div>
+
+    <br />
+
+    <div>
+        <label asp-for="Image">Image URL</label>
+        <input asp-for="Image"
+               placeholder="https://example.com/image.jpg" />
+    </div>
+
+    <br />
+
+    <div>
+        <label asp-for="GenreID">Genre</label>
+
+        <select asp-for="GenreID"
+                asp-items="@(new SelectList(Model.Genres, "ID", "NameGenre"))"
+                required>
+            <option value="">Select a genre</option>
+        </select>
+    </div>
+
+    <br />
+
+    <button type="submit">Create News</button>
+
+</form>

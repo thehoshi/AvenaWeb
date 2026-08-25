@@ -224,5 +224,46 @@ namespace AvenaPersistentSqlServer.Repositories
         }
 
         #endregion
+
+        #region Create
+
+        public int Create(News news)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = """
+            INSERT INTO News
+                (Title, Info, Image, Views, CountOfLikes, GenreID, DateOfPost, DeletedAt)
+            OUTPUT INSERTED.ID
+            VALUES
+                (@Title, @Info, @Image, @Views, @CountOfLikes, @GenreID, @DateOfPost, @DeletedAt)
+            """;
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Title", news.Title);
+                    command.Parameters.AddWithValue("@Info", news.Info);
+
+                    command.Parameters.AddWithValue(
+                        "@Image",
+                        (object?)news.Image ?? DBNull.Value);
+
+                    command.Parameters.AddWithValue("@Views", news.Views);
+                    command.Parameters.AddWithValue("@CountOfLikes", news.CountOfLikes);
+                    command.Parameters.AddWithValue("@GenreID", news.GenreID);
+                    command.Parameters.AddWithValue("@DateOfPost", news.DateOfPost);
+
+                    command.Parameters.AddWithValue(
+                        "@DeletedAt",
+                        (object?)news.DeletedAt ?? DBNull.Value);
+
+                    return Convert.ToInt32(command.ExecuteScalar());
+                }
+            }
+        }
+
+        #endregion
     }
 }

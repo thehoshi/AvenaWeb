@@ -1,0 +1,25 @@
+﻿@page
+@model ProfileModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>Profile</h1>
+
+@if (Model.CurrentUser != null)
+{
+    <section>
+        <h2>@Model.CurrentUser.Name</h2>
+
+        <p>
+            <strong>Username:</strong>
+            @Model.CurrentUser.Username
+        </p>
+
+        <p>
+            <strong>Name:</strong>
+            @Model.CurrentUser.Name
+        </p>
+    </section>
+}
