@@ -1,7 +1,25 @@
+using AvenaCore.Repositories;
+using AvenaPersistentSqlServer.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+builder.Services.AddScoped<IUserRepository>(_ =>
+    new MSSqlUserRepository(connectionString));
+
+builder.Services.AddScoped<IGenreRepository>(_ =>
+    new MSSqlGenreRepository(connectionString));
+
+builder.Services.AddScoped<INewsRepository>(_ =>
+    new MSSqlNewsRepository(connectionString));
+
+builder.Services.AddScoped<ICommentRepository>(_ =>
+    new MSSqlCommentRepository(connectionString));
 
 var app = builder.Build();
 

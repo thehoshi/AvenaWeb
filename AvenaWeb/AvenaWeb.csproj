@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AvenaCore\AvenaCore.csproj" />
+    <ProjectReference Include="..\AvenaPersistentSqlServer\AvenaPersistentSqlServer.csproj" />
+  </ItemGroup>
+
 </Project>
