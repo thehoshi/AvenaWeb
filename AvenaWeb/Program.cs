@@ -1,11 +1,24 @@
+using AvenaCore.Entities;
 using AvenaCore.Repositories;
 using AvenaPersistentSqlServer.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
+
+builder.Services.AddAuthentication("AvenaCookie")
+    .AddCookie("AvenaCookie", options =>
+    {
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/Login";
+    });
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -37,6 +50,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapStaticAssets();
 app.MapRazorPages()

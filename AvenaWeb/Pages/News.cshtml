@@ -25,9 +25,55 @@
 
     <p>@Model.News?.Info</p>
 
-    <div>
-        Views: @Model.News?.Views
-        |
-        Likes: @Model.News?.CountOfLikes
-    </div>
+    <section>
+        <h2>Comments</h2>
+
+        @if (!Model.Comments.Any())
+        {
+            <p>No comments yet.</p>
+        }
+        else
+        {
+            foreach (var comment in Model.Comments)
+            {
+                <article>
+                    <p>@comment.Text</p>
+                </article>
+            }
+        }
+    </section>
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <section>
+            <h2>Leave a comment</h2>
+
+            <form method="post">
+                <input type="hidden" name="NewsId" value="@Model.News?.ID" />
+
+                <textarea name="CommentText"
+                          rows="5"
+                          placeholder="Write your comment..."
+                          required></textarea>
+
+                <br />
+
+                <button type="submit">Post comment</button>
+            </form>
+        </section>
+    }
+    else
+    {
+        <p>
+            <a asp-page="/Login">Login</a> to leave a comment.
+        </p>
+    }
+
+    <form method="post" asp-page-handler="Like">
+        <input type="hidden" name="id" value="@Model.News?.ID" />
+
+        <button type="submit">
+            Like
+        </button>
+    </form>
 </article>

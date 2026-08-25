@@ -196,5 +196,33 @@ namespace AvenaPersistentSqlServer.Repositories
             return null;
         }
         #endregion
+
+        #region AddLike
+
+        public void AddLike(int newsId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = """
+            UPDATE News
+            SET CountOfLikes = CountOfLikes + 1
+            WHERE ID = @ID
+            """;
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ID", newsId);
+
+                    int rowsCount = command.ExecuteNonQuery();
+
+                    if (rowsCount != 1)
+                        throw new Exception("News article was not found.");
+                }
+            }
+        }
+
+        #endregion
     }
 }

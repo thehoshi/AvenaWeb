@@ -5,7 +5,8 @@ using System.Text;
 
 namespace AvenaCore.Repositories
 {
-    public interface ICommentRepository :IBaseRepository<Comment>
+    public interface ICommentRepository : IBaseRepository<Comment>
     {
+        List<Comment> GetByNewsID(int newsId);
     }
 }

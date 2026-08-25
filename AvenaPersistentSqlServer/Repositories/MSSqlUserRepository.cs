@@ -1,77 +1,97 @@
 ﻿using AvenaCore.Entities;
 using AvenaCore.Repositories;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Security.Principal;
-using System.Text;
 
 namespace AvenaPersistentSqlServer.Repositories
 {
     public class MSSqlUserRepository : IUserRepository
     {
         private readonly string _connectionString;
+
         public MSSqlUserRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
+
         #region GetAll
+
         public List<User> GetAll()
         {
-            var User = new List<User>();
+            var users = new List<User>();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                string query = "SELECT * FROM User";
-                using(var command = new SqlCommand(query, connection))
+
+                string query = """
+                    SELECT ID, Username, Name, Password, AvatarImg
+                    FROM [User]
+                    """;
+
+                using (var command = new SqlCommand(query, connection))
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var user = new User()
+                        users.Add(new User
                         {
                             ID = Convert.ToInt32(reader["ID"]),
                             Username = (string)reader["Username"],
-                            Name = (string)reader["Nickname"],
+                            Name = (string)reader["Name"],
                             Password = (string)reader["Password"],
-                            AvatarImg = (string)reader["IMG"]
-                        };
-                        User.Add(user);
+                            AvatarImg = (string)reader["AvatarImg"]
+                        });
                     }
                 }
             }
-            return User;
+
+            return users;
         }
+
         #endregion
 
-        #region Insert
-        public void Insert(User user)
+        #region GetByUsername
+
+        public User? GetByUsername(string username)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
-                string query = "INSERT INTO User (Username, Name, PasswordHash, AvatarImg) " +
-                    "VALUES(@Name,@PasswordHash,@AvatarImg)";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Username", user.Username);
-                    command.Parameters.AddWithValue("@Name", user.Name);
-                    command.Parameters.AddWithValue("@PasswordHash", user.Password);
-                    command.Parameters.AddWithValue("@AvatarImg", user.AvatarImg);
+                string query = """
+                    SELECT ID, Username, Name, Password, AvatarImg
+                    FROM [User]
+                    WHERE Username = @Username
+                    """;
 
-                    int rowsCount = command.ExecuteNonQuery();
-                    if (rowsCount != 1)
-                        throw new Exception("Something went wrong while updating user");
-                    else
-                        Console.WriteLine("The operation was completed successfully");
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new User
+                            {
+                                ID = Convert.ToInt32(reader["ID"]),
+                                Username = (string)reader["Username"],
+                                Name = (string)reader["Name"],
+                                Password = (string)reader["Password"],
+                                AvatarImg = (string)reader["AvatarImg"]
+                            };
+                        }
+                    }
                 }
             }
+
+            return null;
         }
+
         #endregion
 
-        #region GetById
+        #region GetByID
+
         public User? GetByID(int id)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -79,10 +99,10 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = """
-            SELECT ID, Username, Name, Password, AvatarImg
-            FROM [User]
-            WHERE ID = @ID
-            """;
+                    SELECT ID, Username, Name, Password, AvatarImg
+                    FROM [User]
+                    WHERE ID = @ID
+                    """;
 
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -107,6 +127,39 @@ namespace AvenaPersistentSqlServer.Repositories
 
             return null;
         }
+
+        #endregion
+
+        #region Insert
+
+        public void Insert(User user)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = """
+                    INSERT INTO [User]
+                        (Username, Name, Password, AvatarImg)
+                    VALUES
+                        (@Username, @Name, @Password, @AvatarImg)
+                    """;
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", user.Username);
+                    command.Parameters.AddWithValue("@Name", user.Name);
+                    command.Parameters.AddWithValue("@Password", user.Password);
+                    command.Parameters.AddWithValue("@AvatarImg", user.AvatarImg);
+
+                    int rowsCount = command.ExecuteNonQuery();
+
+                    if (rowsCount != 1)
+                        throw new Exception("Something went wrong while creating the user.");
+                }
+            }
+        }
+
         #endregion
     }
 }
