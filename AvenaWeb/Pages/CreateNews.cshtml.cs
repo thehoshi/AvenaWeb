@@ -2,6 +2,7 @@ using AvenaCore.Entities;
 using AvenaCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Http;
 
 namespace AvenaWeb.Pages;
 
@@ -27,7 +28,7 @@ public class CreateNewsModel : PageModel
     public string Info { get; set; } = "";
 
     [BindProperty]
-    public string? Image { get; set; }
+    public IFormFile? ImageFile { get; set; }
 
     [BindProperty]
     public int GenreID { get; set; }
@@ -44,7 +45,7 @@ public class CreateNewsModel : PageModel
         return Page();
     }
 
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
         if (!(User.Identity?.IsAuthenticated ?? false))
         {
@@ -61,13 +62,48 @@ public class CreateNewsModel : PageModel
             return Page();
         }
 
+        string? imagePath = null;
+
+        if (ImageFile != null && ImageFile.Length > 0)
+        {
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+
+            var extension = Path.GetExtension(ImageFile.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(extension))
+            {
+                ModelState.AddModelError("ImageFile", "Only JPG, JPEG, PNG and WebP images are allowed.");
+
+                Genres = _genreRepository.GetAll();
+
+                return Page();
+            }
+
+            var uploadsFolder = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                "images",
+                "news");
+
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{Guid.NewGuid()}{extension}";
+
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await ImageFile.CopyToAsync(stream);
+            }
+
+            imagePath = $"/images/news/{fileName}";
+        }
+
         var news = new News
         {
             Title = Title.Trim(),
             Info = Info.Trim(),
-            Image = string.IsNullOrWhiteSpace(Image)
-                ? null
-                : Image.Trim(),
+            Image = imagePath,
             Views = 0,
             CountOfLikes = 0,
             GenreID = GenreID,

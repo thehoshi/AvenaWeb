@@ -1,298 +1,179 @@
 ﻿@page
 @model IndexModel
-
-<h1>Avena News</h1>
-
-
-<div class="genres">
-    @foreach (var genre in Model.Genres)
-    {
-        <a href="/genre/@genre.ID">
-            @genre.NameGenre
-        </a>
-    }
-</div>
-
-@foreach (var news in Model.News)
-{
-    <article>
-         <h2>
-            <a href="/news/@news.ID">
-                @news.Title
-            </a>
-        </h2>
-        <p>@news.Info</p>
-        <p>
-            Views: @news.Views |
-            Likes: @news.CountOfLikes |
-            Genre ID: @news.GenreID
-        </p>
-    </article>
-}
-@*
-@page
-@model IndexModel
 @{
     ViewData["Title"] = "Avena";
+    var featured = Model.News.FirstOrDefault();
+    var rest = Model.News.Skip(1).Take(6).ToList();
 }
 
 <link rel="stylesheet" href="~/css/Azpetrol.css" />
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="nav-inner">
-            <a href="#" class="logo">
-                <span class="logo-mark">§</span>
-                <span class="logo-text">Avena</span>
-            </a>
-            <nav class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#news">News</a>
-                <a href="#comments">Comments</a>
-            </nav>
-            <button class="nav-toggle" aria-label="Open menu">
-                <span></span><span></span><span></span>
-            </button>
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-inner">
+        <div class="hero-text">
+            <p class="eyebrow">Est. 2026 — An open forum</p>
+            <h1>Avena<br>Opinions</h1>
+            <p class="hero-tagline">Opinions shape the future.<br>Stay informed. Stay engaged.</p>
+            <a href="#news" class="btn-primary">Read Latest News</a>
         </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero" id="home">
-        <div class="hero-inner">
-            <div class="hero-text">
-                <p class="eyebrow">Est. 2026 — An open forum</p>
-                <h1>Avena<br>Opinions</h1>
-                <p class="hero-tagline">Opinions shape the future.<br>Stay informed. Stay engaged.</p>
-                <a href="#news" class="btn-primary">Read Latest News</a>
-            </div>
-            <div class="hero-visual" aria-hidden="true">
-                <div class="pulse-widget">
-                    <span class="ring ring-1"></span>
-                    <span class="ring ring-2"></span>
-                    <span class="ring ring-3"></span>
-                    <div class="pulse-core">
-                        <svg viewBox="0 0 64 64" width="34" height="34" fill="none">
-                            <path d="M14 22c0-6 5-11 11-11h14c6 0 11 5 11 11v10c0 6-5 11-11 11H27l-9 8v-8c-2 0-4-.9-5.5-2.4C11 39 10 36.9 10 34.8V22z" stroke="#E4D5C3" stroke-width="2.5" stroke-linejoin="round" />
-                        </svg>
-                    </div>
+        <div class="hero-visual" aria-hidden="true">
+            <div class="pulse-widget">
+                <span class="ring ring-1"></span>
+                <span class="ring ring-2"></span>
+                <span class="ring ring-3"></span>
+                <div class="pulse-core">
+                    <svg viewBox="0 0 64 64" width="34" height="34" fill="none">
+                        <path d="M14 22c0-6 5-11 11-11h14c6 0 11 5 11 11v10c0 6-5 11-11 11H27l-9 8v-8c-2 0-4-.9-5.5-2.4C11 39 10 36.9 10 34.8V22z" stroke="#E4D5C3" stroke-width="2.5" stroke-linejoin="round" />
+                    </svg>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- ABOUT -->
-    <section class="about" id="about">
-        <div class="section-inner about-grid">
-            <div class="about-heading">
-                <p class="eyebrow">About the Project</p>
-                <h2>Why this platform exists</h2>
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="section-inner about-grid">
+        <div class="about-heading">
+            <p class="eyebrow">About the Project</p>
+            <h2>Why this platform exists</h2>
+        </div>
+        <div class="about-details">
+            <div class="detail-row">
+                <span class="detail-label">Who created it</span>
+                <p>A small collective of writers, editors, and researchers who believe public debate deserves a calmer home.</p>
             </div>
-            <div class="about-details">
-                <div class="detail-row">
-                    <span class="detail-label">Who created it</span>
-                    <p>A small collective of writers, editors, and researchers who believe public debate deserves a calmer home.</p>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Mission</span>
-                    <p>To turn scattered reactions into informed conversation — one article, one comment at a time.</p>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Purpose</span>
-                    <p>A space where evidence and opinion sit side by side, so readers can weigh both before they speak.</p>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Year</span>
-                    <p>Founded in 2026, built for the conversations still ahead of us.</p>
-                </div>
+            <div class="detail-row">
+                <span class="detail-label">Mission</span>
+                <p>To turn scattered reactions into informed conversation — one article at a time.</p>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Purpose</span>
+                <p>A space where evidence and opinion sit side by side, so readers can weigh both before they speak.</p>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Year</span>
+                <p>Founded in 2026, built for the conversations still ahead of us.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- LATEST NEWS -->
-    <section class="news" id="news">
-        <div class="section-inner">
-            <p class="eyebrow">Latest News</p>
-            <h2>What people are talking about</h2>
+<!-- LATEST NEWS -->
+<section class="news" id="news">
+    <div class="section-inner">
+        <p class="eyebrow">Latest News</p>
+        <h2>What people are talking about</h2>
+
+        @if (featured == null)
+        {
+            <p>No articles have been published yet. Check back soon.</p>
+        }
+        else
+        {
+            var featuredGenre = Model.Genres.FirstOrDefault(g => g.ID == featured.GenreID);
+            var featuredExcerpt = featured.Info.Length > 220 ? featured.Info.Substring(0, 220).TrimEnd() + "…" : featured.Info;
 
             <article class="featured-article">
-                <div class="featured-image ph-img" data-label="Featured Image"></div>
+                @if (!string.IsNullOrEmpty(featured.Image))
+                {
+                    <div class="featured-image" style="background-image:url('@featured.Image'); background-size:cover; background-position:center; border-radius:4px;"></div>
+                }
+                else
+                {
+                    <div class="featured-image ph-img" data-label="Featured Image"></div>
+                }
                 <div class="featured-body">
-                    <span class="tag">Environment</span>
-                    <h3>The quiet cities are getting louder about clean air</h3>
-                    <p>A wave of grassroots petitions is pushing local councils to rethink transit, and residents are showing up in numbers no one expected.</p>
-                    <a href="#" class="read-more">Read More <span aria-hidden="true">→</span></a>
+                    @if (featuredGenre != null)
+                    {
+                        <span class="tag">@featuredGenre.NameGenre</span>
+                    }
+                    <h3>@featured.Title</h3>
+                    <p>@featuredExcerpt</p>
+                    <a href="/news/@featured.ID" class="read-more">Read More <span aria-hidden="true">→</span></a>
                 </div>
             </article>
 
-            <div class="news-grid">
-                <article class="news-card">
-                    <div class="card-image ph-img" data-label="Image"></div>
-                    <span class="tag">Education</span>
-                    <h4>Classrooms without walls: the remote-learning debate returns</h4>
-                    <a href="#" class="read-more">Read More <span aria-hidden="true">→</span></a>
-                </article>
-                <article class="news-card">
-                    <div class="card-image ph-img" data-label="Image"></div>
-                    <span class="tag">Technology</span>
-                    <h4>Who owns a thought once an algorithm finishes it?</h4>
-                    <a href="#" class="read-more">Read More <span aria-hidden="true">→</span></a>
-                </article>
-                <article class="news-card">
-                    <div class="card-image ph-img" data-label="Image"></div>
-                    <span class="tag">Politics</span>
-                    <h4>Local elections, national stakes: a district-by-district read</h4>
-                    <a href="#" class="read-more">Read More <span aria-hidden="true">→</span></a>
-                </article>
-                <article class="news-card">
-                    <div class="card-image ph-img" data-label="Image"></div>
-                    <span class="tag">Society</span>
-                    <h4>The four-day week experiment nobody wants to end</h4>
-                    <a href="#" class="read-more">Read More <span aria-hidden="true">→</span></a>
-                </article>
-                <article class="news-card">
-                    <div class="card-image ph-img" data-label="Image"></div>
-                    <span class="tag">Culture</span>
-                    <h4>Independent bookshops are having a very unlikely revival</h4>
-                    <a href="#" class="read-more">Read More <span aria-hidden="true">→</span></a>
-                </article>
-                <article class="news-card">
-                    <div class="card-image ph-img" data-label="Image"></div>
-                    <span class="tag">Society</span>
-                    <h4>Why more neighbours are eating dinner together again</h4>
-                    <a href="#" class="read-more">Read More <span aria-hidden="true">→</span></a>
-                </article>
-            </div>
-        </div>
-    </section>
+            @if (rest.Any())
+            {
+                <div class="news-grid">
+                    @foreach (var news in rest)
+                    {
+                        var genre = Model.Genres.FirstOrDefault(g => g.ID == news.GenreID);
 
-    <!-- COMMENTS -->
-    <section class="comments" id="comments">
-        <div class="section-inner">
-            <p class="eyebrow">Popular Comments</p>
-            <h2>Voices from the community</h2>
-
-            <div class="comments-grid">
-                <div class="comment-card">
-                    <div class="comment-head">
-                        <div class="avatar" aria-hidden="true">M</div>
-                        <div>
-                            <span class="author">m.reads_slowly</span>
-                            <span class="date">June 28, 2026</span>
-                        </div>
-                    </div>
-                    <p class="opinion">"We keep asking cities to be greener without ever asking who pays for the transition. That question deserves its own headline."</p>
-                    <div class="comment-stats">
-                        <span>♥ 234 likes</span>
-                        <span>◎ 3.2K views</span>
-                    </div>
+                        <article class="news-card">
+                            @if (!string.IsNullOrEmpty(news.Image))
+                            {
+                                <div class="card-image" style="background-image:url('@news.Image'); background-size:cover; background-position:center; border-radius:4px;"></div>
+                            }
+                            else
+                            {
+                                <div class="card-image ph-img" data-label="Image"></div>
+                            }
+                            @if (genre != null)
+                            {
+                                <span class="tag">@genre.NameGenre</span>
+                            }
+                            <h4><a href="/news/@news.ID">@news.Title</a></h4>
+                            <a href="/news/@news.ID" class="read-more">Read More <span aria-hidden="true">→</span></a>
+                        </article>
+                    }
                 </div>
+            }
+        }
+    </div>
+</section>
 
-                <div class="comment-card">
-                    <div class="comment-head">
-                        <div class="avatar" aria-hidden="true">A</div>
-                        <div>
-                            <span class="author">anaisk</span>
-                            <span class="date">June 25, 2026</span>
-                        </div>
-                    </div>
-                    <p class="opinion">"Remote learning isn't the enemy of good education — bad implementation is. Let's stop conflating the two."</p>
-                    <div class="comment-stats">
-                        <span>♥ 198 likes</span>
-                        <span>◎ 2.7K views</span>
-                    </div>
-                </div>
-
-                <div class="comment-card">
-                    <div class="comment-head">
-                        <div class="avatar" aria-hidden="true">T</div>
-                        <div>
-                            <span class="author">tolga.writes</span>
-                            <span class="date">June 21, 2026</span>
-                        </div>
-                    </div>
-                    <p class="opinion">"Independent bookshops survived because they sell something algorithms can't: a person who's actually read the book."</p>
-                    <div class="comment-stats">
-                        <span>♥ 312 likes</span>
-                        <span>◎ 4.1K views</span>
-                    </div>
-                </div>
-
-                <div class="comment-card">
-                    <div class="comment-head">
-                        <div class="avatar" aria-hidden="true">S</div>
-                        <div>
-                            <span class="author">sabina_v</span>
-                            <span class="date">June 18, 2026</span>
-                        </div>
-                    </div>
-                    <p class="opinion">"Four-day weeks worked here not because output magically increased, but because meetings finally got shorter."</p>
-                    <div class="comment-stats">
-                        <span>♥ 176 likes</span>
-                        <span>◎ 2.1K views</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TRENDING TOPICS -->
-    <section class="trending">
-        <div class="section-inner">
-            <p class="eyebrow">Trending Topics</p>
+<!-- TRENDING TOPICS -->
+<section class="trending">
+    <div class="section-inner">
+        <p class="eyebrow">Browse by Topic</p>
+        @if (!Model.Genres.Any())
+        {
+            <p>No topics yet.</p>
+        }
+        else
+        {
             <div class="topic-list">
-                <a href="#" class="topic-pill">Environment</a>
-                <a href="#" class="topic-pill">Education</a>
-                <a href="#" class="topic-pill">Technology</a>
-                <a href="#" class="topic-pill">Politics</a>
-                <a href="#" class="topic-pill">Society</a>
-                <a href="#" class="topic-pill">Culture</a>
+                @foreach (var genre in Model.Genres)
+                {
+                    <a href="/genre/@genre.ID" class="topic-pill">@genre.NameGenre</a>
+                }
             </div>
+        }
+    </div>
+</section>
+
+<!-- QUOTE BANNER -->
+<section class="quote-banner">
+    <p>"Every opinion matters when it is supported by facts."</p>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+    <div class="section-inner contact-grid">
+        <div class="contact-heading">
+            <p class="eyebrow">Contact</p>
+            <h2>Let's talk</h2>
         </div>
-    </section>
-
-    <!-- QUOTE BANNER -->
-    <section class="quote-banner">
-        <p>"Every opinion matters when it is supported by facts."</p>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="contact" id="contact">
-        <div class="section-inner contact-grid">
-            <div class="contact-heading">
-                <p class="eyebrow">Contact</p>
-                <h2>Let's talk</h2>
+        <div class="contact-details">
+            <div class="contact-item">
+                <span class="detail-label">Email</span>
+                <p>hello@avena.news</p>
             </div>
-            <div class="contact-details">
-                <div class="contact-item">
-                    <span class="detail-label">Email</span>
-                    <p>hello@societyspeaks.com</p>
-                </div>
-                <div class="contact-item">
-                    <span class="detail-label">Phone</span>
-                    <p>+994 12 345 67 89</p>
-                </div>
-                <div class="contact-item">
-                    <span class="detail-label">Social Media</span>
-                    <div class="social-links">
-                        <a href="#">Instagram</a>
-                        <a href="#">Twitter</a>
-                        <a href="#">LinkedIn</a>
-                    </div>
+            <div class="contact-item">
+                <span class="detail-label">Phone</span>
+                <p>+994 12 345 67 89</p>
+            </div>
+            <div class="contact-item">
+                <span class="detail-label">Social Media</span>
+                <div class="social-links">
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">LinkedIn</a>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="section-inner footer-inner">
-            <p class="footer-copy">Azpetrol© 2026 thehoshik</p>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms</a>
-                <a href="#">Instagram</a>
-                <a href="#">Twitter</a>
-                <a href="#">LinkedIn</a>
-            </div>
-        </div>
-    </footer> *@
+    </div>
+</section>

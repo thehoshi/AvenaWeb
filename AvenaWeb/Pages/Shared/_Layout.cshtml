@@ -14,29 +14,20 @@
 
 <body>
 
-    <header class="site-header">
+    <header class="navbar">
+        <div class="nav-inner">
+            <a asp-page="/Index" class="logo">
+                <span class="logo-mark">§</span>
+                <span class="logo-text">Avena</span>
+            </a>
 
-        <a asp-page="/Index" class="site-logo">
-            AVENA
-        </a>
-
-        <div class="menu-container">
-
-            <button class="menu-button"
-                    type="button"
-                    id="menuButton"
-                    aria-label="Open menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-            <nav class="menu" id="menu">
+            <nav class="nav-links" id="navLinks">
+                <a asp-page="/Index">Home</a>
+                <a asp-page="/Index" asp-fragment="news">News</a>
 
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <a asp-page="/CreateNews">Create post</a>
-
                     <a asp-page="/Profile">Profile</a>
 
                     <form method="post" asp-page="/Logout">
@@ -48,29 +39,45 @@
                     <a asp-page="/Login">Login</a>
                     <a asp-page="/Register">Register</a>
                 }
-
             </nav>
 
+            <button class="nav-toggle" type="button" id="navToggle" aria-label="Open menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
         </div>
-
     </header>
 
     <main>
         @RenderBody()
     </main>
 
-    <script>
-            const menuButton = document.getElementById("menuButton");
-            const menu = document.getElementById("menu");
+    <footer class="footer">
+        <div class="section-inner footer-inner">
+            <p class="footer-copy">Avena © 2026</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
 
-            menuButton.addEventListener("click", function () {
-                menu.classList.toggle("open");
+    <script>
+            const navToggle = document.getElementById("navToggle");
+            const navLinks = document.getElementById("navLinks");
+
+            navToggle.addEventListener("click", function() {
+                const isOpen = navLinks.classList.toggle("open");
+                navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
             });
 
-            document.addEventListener("click", function (event) {
-                if (!menuButton.contains(event.target) &&
-                    !menu.contains(event.target)) {
-                    menu.classList.remove("open");
+            document.addEventListener("click", function(event) {
+                if (!navToggle.contains(event.target) &&
+                    !navLinks.contains(event.target)) {
+                    navLinks.classList.remove("open");
+                    navToggle.setAttribute("aria-expanded", "false");
                 }
             });
     </script>

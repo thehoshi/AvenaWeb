@@ -7,7 +7,7 @@
 
 <h1>Create News</h1>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 
     <div>
         <label asp-for="Title">Title</label>
@@ -28,9 +28,10 @@
     <br />
 
     <div>
-        <label asp-for="Image">Image URL</label>
-        <input asp-for="Image"
-               placeholder="https://example.com/image.jpg" />
+        <label asp-for="ImageFile">Image</label>
+        <input asp-for="ImageFile"
+               type="file"
+               accept=".jpg,.jpeg,.png,.webp" />
     </div>
 
     <br />
