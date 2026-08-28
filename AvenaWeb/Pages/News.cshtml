@@ -5,68 +5,82 @@
     ViewData["Title"] = Model.News?.Title;
 }
 
-<article>
-    <h1>@Model.News?.Title</h1>
-
-    @if (Model.Genre != null)
-    {
-        <p>
-            Genre:
-            <a href="/genre/@Model.Genre.ID">
-                @Model.Genre.NameGenre
-            </a>
-        </p>
-    }
+<section class="article-page">
+    <div class="section-inner article-header">
+        @if (Model.Genre != null)
+        {
+            <a href="/genre/@Model.Genre.ID" class="tag">@Model.Genre.NameGenre</a>
+        }
+        <h1>@Model.News?.Title</h1>
+        @if (Model.News != null)
+        {
+            <p class="article-meta">@Model.News.DateOfPost.ToString("MMMM d, yyyy") · @Model.News.Views view@(Model.News.Views == 1 ? "" : "s")</p>
+        }
+    </div>
 
     @if (!string.IsNullOrEmpty(Model.News?.Image))
     {
-        <img src="@Model.News.Image" alt="@Model.News.Title" />
+        <div class="article-hero-image" style="background-image:url('@Model.News.Image')"></div>
     }
 
-    <p>@Model.News?.Info</p>
+    <div class="section-inner article-body">
+        <p>@Model.News?.Info</p>
+    </div>
 
-    <section>
+    <div class="section-inner comments-section">
         <h2>Comments</h2>
 
         @if (!Model.Comments.Any())
         {
-            <p>No comments yet.</p>
+            <p class="login-prompt">No comments yet — be the first to share your take.</p>
         }
         else
         {
             @foreach (var comment in Model.Comments)
             {
-                <article>
-                    <strong>@comment.Username</strong>
-                    <p>@comment.Text</p>
-                </article>
+                <div class="comment-item">
+                    <div class="avatar" aria-hidden="true">@comment.Username.Substring(0, 1).ToUpper()</div>
+                    <div class="comment-item-body">
+                        <strong>@comment.Username</strong>
+                        <span class="comment-date">@comment.DateOfPost.ToString("MMMM d, yyyy")</span>
+                        <p>@comment.Text</p>
+                    </div>
+                </div>
             }
         }
-    </section>
 
-    @if (User.Identity?.IsAuthenticated == true)
-    {
-        <section>
-            <h2>Leave a comment</h2>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="comment-form-section">
+                <h2>Leave a comment</h2>
 
-            <form method="post">
-                <input type="hidden" name="NewsId" value="@Model.News?.ID" />
+                <form method="post" class="comment-form" id="commentForm">
+                    <input type="hidden" name="NewsId" value="@Model.News?.ID" />
 
-                <textarea name="CommentText"
-                          rows="5"
-                          placeholder="Write your comment..."
-                          required></textarea>
+                    <textarea name="CommentText"
+                              id="commentText"
+                              rows="4"
+                              placeholder="Write your comment... (Enter to post, Shift+Enter for a new line)"
+                              required></textarea>
 
-                <br />
+                    <button type="submit" class="btn-primary">Post comment</button>
+                </form>
 
-                <button type="submit">Post comment</button>
-            </form>
-        </section>
-    }
-    else
-    {
-        <p>
-            <a asp-page="/Login">Login</a> to leave a comment.
-        </p>
-    }
-</article>
+                <script>
+                                document.getElementById("commentText").addEventListener("keydown", function(event) {
+                                    if (event.key === "Enter" && !event.shiftKey) {
+                                        event.preventDefault();
+                                        document.getElementById("commentForm").requestSubmit();
+                                    }
+                                });
+                </script>
+            </div>
+        }
+        else
+        {
+            <p class="login-prompt comment-form-section">
+                <a asp-page="/Login">Login</a> to leave a comment.
+            </p>
+        }
+    </div>
+</section>

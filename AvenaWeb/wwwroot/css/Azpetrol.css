@@ -732,3 +732,132 @@ h1, h2, h3, h4 {
         padding: 60px 20px 60px;
     }
 }
+/* ========== ARTICLE PAGE ========== */
+.article-page {
+    padding: 80px 0 100px;
+}
+
+.article-header {
+    max-width: 760px;
+    margin: 0 auto 44px;
+}
+
+    .article-header .tag {
+        display: inline-block;
+    }
+
+    .article-header h1 {
+        font-size: clamp(2.1rem, 4.5vw, 3.2rem);
+        margin: 16px 0 14px;
+    }
+
+.article-meta {
+    font-size: .85rem;
+    color: var(--rose);
+    font-weight: 600;
+}
+
+.article-hero-image {
+    max-width: var(--container);
+    margin: 0 auto 56px;
+    aspect-ratio: 21 / 9;
+    border-radius: 6px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.article-body {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 1.06rem;
+}
+
+    .article-body p {
+        color: var(--ink);
+        opacity: .88;
+        margin-bottom: 22px;
+    }
+
+.comments-section {
+    max-width: 720px;
+    margin: 70px auto 0;
+    padding-top: 50px;
+    border-top: 1px solid rgba(78,0,0,.18);
+}
+
+    .comments-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 32px;
+    }
+
+.comment-item {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.comment-item-body strong {
+    display: block;
+    font-family: var(--font-display);
+    color: var(--burgundy);
+    font-size: 1rem;
+    margin-bottom: 2px;
+}
+
+.comment-item-body .comment-date {
+    display: block;
+    font-size: .78rem;
+    color: var(--rose);
+    margin-bottom: 8px;
+}
+
+.comment-item-body p {
+    color: var(--ink);
+    opacity: .88;
+    font-size: .95rem;
+}
+
+.comment-form-section {
+    margin-top: 56px;
+}
+
+    .comment-form-section h2 {
+        font-size: 1.4rem;
+        margin-bottom: 18px;
+    }
+
+.comment-form textarea {
+    width: 100%;
+    border: 1px solid rgba(78,0,0,.25);
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: var(--font-body);
+    font-size: .95rem;
+    color: var(--ink);
+    background: var(--cream-light);
+    resize: vertical;
+    margin-bottom: 16px;
+}
+
+    .comment-form textarea:focus {
+        outline: 2px solid var(--ochre);
+        outline-offset: 2px;
+    }
+
+.comment-form button {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.login-prompt {
+    color: var(--ink);
+    opacity: .85;
+}
+
+    .login-prompt a {
+        color: var(--burgundy);
+        font-weight: 600;
+        text-decoration: underline;
+    }
