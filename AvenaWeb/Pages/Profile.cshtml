@@ -27,12 +27,15 @@
                     <p class="form-error">@ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage</p>
                 }
 
-                <form method="post" class="profile-form">
+                <form method="post" class="profile-form" enctype="multipart/form-data">
                     <label for="name">Display name</label>
                     <input type="text" id="name" name="name" value="@Model.CurrentUser.Name" required />
 
-                    <label for="avatarImg">Avatar image URL</label>
-                    <input type="url" id="avatarImg" name="avatarImg" value="@Model.CurrentUser.AvatarImg" placeholder="https://example.com/your-photo.jpg" />
+                    <label for="avatarFile">Avatar image</label>
+                    <input type="file"
+                           id="avatarFile"
+                           name="avatarFile"
+                           accept=".jpg,.jpeg,.png,.webp" />
 
                     <button type="submit" class="btn-primary">Save changes</button>
                 </form>
@@ -42,16 +45,18 @@
 </section>
 
 <script>
-    const avatarInput = document.getElementById("avatarImg");
+    const avatarInput = document.getElementById("avatarFile");
     const avatarPreview = document.getElementById("avatarPreview");
 
-    avatarInput.addEventListener("input", function() {
-        const url = avatarInput.value.trim();
-        if (url) {
-            avatarPreview.style.backgroundImage = "url('" + url + "')";
+    avatarInput.addEventListener("change", function() {
+        const file = avatarInput.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            avatarPreview.style.backgroundImage = "url('" + e.target.result + "')";
             avatarPreview.textContent = "";
-        } else {
-            avatarPreview.style.backgroundImage = "none";
-        }
+        };
+        reader.readAsDataURL(file);
     });
 </script>

@@ -39,7 +39,14 @@
             @foreach (var comment in Model.Comments)
             {
                 <div class="comment-item">
-                    <div class="avatar" aria-hidden="true">@comment.Username.Substring(0, 1).ToUpper()</div>
+                    @if (!string.IsNullOrEmpty(comment.AvatarImg))
+                    {
+                        <div class="avatar" aria-hidden="true" style="background-image:url('@comment.AvatarImg'); background-size:cover; background-position:center;"></div>
+                    }
+                    else
+                    {
+                        <div class="avatar" aria-hidden="true">@comment.Username.Substring(0, 1).ToUpper()</div>
+                    }
                     <div class="comment-item-body">
                         <strong>@comment.Username</strong>
                         <span class="comment-date">@comment.DateOfPost.ToString("MMMM d, yyyy")</span>

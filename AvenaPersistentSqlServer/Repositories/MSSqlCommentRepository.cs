@@ -114,7 +114,8 @@ namespace AvenaPersistentSqlServer.Repositories
                 c.CountOfLikes,
                 c.DateOfPost,
                 u.Username,
-                u.Name
+                u.Name,
+                u.AvatarImg
             FROM Comment c
             INNER JOIN [User] u ON c.UserID = u.ID
             WHERE c.NewsID = @NewsID
@@ -138,7 +139,8 @@ namespace AvenaPersistentSqlServer.Repositories
                                 CountOfLikes = Convert.ToInt32(reader["CountOfLikes"]),
                                 DateOfPost = Convert.ToDateTime(reader["DateOfPost"]),
                                 Username = (string)reader["Username"],
-                                Name = (string)reader["Name"]
+                                Name = (string)reader["Name"],
+                                AvatarImg = reader["AvatarImg"] as string ?? ""
                             });
                         }
                     }
