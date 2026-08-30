@@ -161,5 +161,35 @@ namespace AvenaPersistentSqlServer.Repositories
         }
 
         #endregion
+
+        #region UpdateProfile
+
+        public void UpdateProfile(int id, string name, string avatarImg)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = """
+                    UPDATE [User]
+                    SET Name = @Name, AvatarImg = @AvatarImg
+                    WHERE ID = @ID
+                    """;
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ID", id);
+                    command.Parameters.AddWithValue("@Name", name);
+                    command.Parameters.AddWithValue("@AvatarImg", avatarImg);
+
+                    int rowsCount = command.ExecuteNonQuery();
+
+                    if (rowsCount != 1)
+                        throw new Exception("User was not found.");
+                }
+            }
+        }
+
+        #endregion
     }
 }

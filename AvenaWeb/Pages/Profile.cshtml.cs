@@ -40,4 +40,30 @@ public class ProfileModel : PageModel
 
         return Page();
     }
+
+    public IActionResult OnPost(string name, string avatarImg)
+    {
+        if (!(User.Identity?.IsAuthenticated ?? false))
+        {
+            return Challenge();
+        }
+
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!int.TryParse(userIdClaim, out int userId))
+        {
+            return Challenge();
+        }
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            ModelState.AddModelError(string.Empty, "Name can't be empty.");
+            CurrentUser = _userRepository.GetByID(userId);
+            return Page();
+        }
+
+        _userRepository.UpdateProfile(userId, name.Trim(), (avatarImg ?? string.Empty).Trim());
+
+        return RedirectToPage();
+    }
 }

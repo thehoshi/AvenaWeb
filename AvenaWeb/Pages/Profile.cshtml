@@ -5,21 +5,53 @@
     ViewData["Title"] = "Profile";
 }
 
-<h1>Profile</h1>
+<section class="profile-page">
+    <div class="section-inner">
+        @if (Model.CurrentUser != null)
+        {
+            <div class="profile-card">
+                @if (!string.IsNullOrEmpty(Model.CurrentUser.AvatarImg))
+                {
+                    <div class="profile-avatar" id="avatarPreview" style="background-image:url('@Model.CurrentUser.AvatarImg')"></div>
+                }
+                else
+                {
+                    <div class="profile-avatar" id="avatarPreview">@Model.CurrentUser.Name.Substring(0, 1).ToUpper()</div>
+                }
 
-@if (Model.CurrentUser != null)
-{
-    <section>
-        <h2>@Model.CurrentUser.Name</h2>
+                <h1>@Model.CurrentUser.Name</h1>
+                <p class="profile-username">@@@Model.CurrentUser.Username</p>
 
-        <p>
-            <strong>Username:</strong>
-            @Model.CurrentUser.Username
-        </p>
+                @if (!ModelState.IsValid)
+                {
+                    <p class="form-error">@ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage</p>
+                }
 
-        <p>
-            <strong>Name:</strong>
-            @Model.CurrentUser.Name
-        </p>
-    </section>
-}
+                <form method="post" class="profile-form">
+                    <label for="name">Display name</label>
+                    <input type="text" id="name" name="name" value="@Model.CurrentUser.Name" required />
+
+                    <label for="avatarImg">Avatar image URL</label>
+                    <input type="url" id="avatarImg" name="avatarImg" value="@Model.CurrentUser.AvatarImg" placeholder="https://example.com/your-photo.jpg" />
+
+                    <button type="submit" class="btn-primary">Save changes</button>
+                </form>
+            </div>
+        }
+    </div>
+</section>
+
+<script>
+    const avatarInput = document.getElementById("avatarImg");
+    const avatarPreview = document.getElementById("avatarPreview");
+
+    avatarInput.addEventListener("input", function() {
+        const url = avatarInput.value.trim();
+        if (url) {
+            avatarPreview.style.backgroundImage = "url('" + url + "')";
+            avatarPreview.textContent = "";
+        } else {
+            avatarPreview.style.backgroundImage = "none";
+        }
+    });
+</script>
