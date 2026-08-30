@@ -5,28 +5,40 @@
     ViewData["Title"] = Model.Genre?.NameGenre;
 }
 
-<h1>@Model.Genre?.NameGenre</h1>
+<section class="genre-page">
+    <div class="section-inner">
+        <div class="genre-header">
+            <p class="eyebrow">Genre</p>
+            <h1>@Model.Genre?.NameGenre</h1>
+        </div>
 
-@if (!Model.News.Any())
-{
-    <p>No news in this genre yet.</p>
-}
-else
-{
-    foreach (var news in Model.News)
-    {
-        <article>
-            <h2>
-                <a href="/news/@news.ID">
-                    @news.Title
-                </a>
-            </h2>
-            <p>@news.Info</p>
+        @if (!Model.News.Any())
+        {
+            <p>No articles in this genre yet.</p>
+        }
+        else
+        {
+            <div class="news-grid">
+                @foreach (var news in Model.News)
+                {
+                    var excerpt = news.Info.Length > 140 ? news.Info.Substring(0, 140).TrimEnd() + "…" : news.Info;
 
-            <small>
-                Views: @news.Views |
-                Likes: @news.CountOfLikes
-            </small>
-        </article>
-    }
-}
+                    <article class="news-card">
+                        @if (!string.IsNullOrEmpty(news.Image))
+                        {
+                            <div class="card-image" style="background-image:url('@news.Image'); background-size:cover; background-position:center; border-radius:4px;"></div>
+                        }
+                        else
+                        {
+                            <div class="card-image ph-img" data-label="Image"></div>
+                        }
+                        <h4><a href="/news/@news.ID">@news.Title</a></h4>
+                        <p>@excerpt</p>
+                        <p class="genre-card-meta">@news.DateOfPost.ToString("MMM d, yyyy") · @news.Views view@(news.Views == 1 ? "" : "s")</p>
+                        <a href="/news/@news.ID" class="read-more">Read More <span aria-hidden="true">→</span></a>
+                    </article>
+                }
+            </div>
+        }
+    </div>
+</section>

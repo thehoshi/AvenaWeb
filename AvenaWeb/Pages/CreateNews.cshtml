@@ -5,49 +5,44 @@
     ViewData["Title"] = "Create News";
 }
 
-<h1>Create News</h1>
+<section class="profile-page">
+    <div class="section-inner">
+        <div class="profile-card wide">
+            <h1>Write a new article</h1>
+            <p class="profile-username">Share something with the community</p>
 
-<form method="post" enctype="multipart/form-data">
+            @if (!ModelState.IsValid)
+            {
+                <p class="form-error">@ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage</p>
+            }
 
-    <div>
-        <label asp-for="Title">Title</label>
-        <input asp-for="Title" required />
+            <form method="post" enctype="multipart/form-data" class="profile-form">
+                <label asp-for="Title">Title</label>
+                <input asp-for="Title" required />
+
+                <label asp-for="Info">Article text</label>
+                <textarea asp-for="Info" rows="10" required></textarea>
+
+                <label asp-for="ImageFile">Image</label>
+                <input asp-for="ImageFile"
+                       type="file"
+                       accept=".jpg,.jpeg,.png,.webp" />
+
+                <label asp-for="GenreName">Genre</label>
+                <input asp-for="GenreName"
+                       list="genreOptions"
+                       placeholder="Type to search, or type a new genre name"
+                       autocomplete="off"
+                       required />
+                <datalist id="genreOptions">
+                    @foreach (var genre in Model.Genres)
+                    {
+                        <option value="@genre.NameGenre"></option>
+                    }
+                </datalist>
+
+                <button type="submit" class="btn-primary">Publish article</button>
+            </form>
+        </div>
     </div>
-
-    <br />
-
-    <div>
-        <label asp-for="Info">Article text</label>
-        <br />
-        <textarea asp-for="Info"
-                  rows="10"
-                  cols="60"
-                  required></textarea>
-    </div>
-
-    <br />
-
-    <div>
-        <label asp-for="ImageFile">Image</label>
-        <input asp-for="ImageFile"
-               type="file"
-               accept=".jpg,.jpeg,.png,.webp" />
-    </div>
-
-    <br />
-
-    <div>
-        <label asp-for="GenreID">Genre</label>
-
-        <select asp-for="GenreID"
-                asp-items="@(new SelectList(Model.Genres, "ID", "NameGenre"))"
-                required>
-            <option value="">Select a genre</option>
-        </select>
-    </div>
-
-    <br />
-
-    <button type="submit">Create News</button>
-
-</form>
+</section>

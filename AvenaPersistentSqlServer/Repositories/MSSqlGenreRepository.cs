@@ -95,5 +95,40 @@ namespace AvenaPersistentSqlServer.Repositories
             return null;
         }
         #endregion
+
+        #region GetOrCreate
+        public int GetOrCreate(string nameGenre)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string selectQuery = "SELECT ID FROM Genre WHERE NameGenre = @NameGenre";
+
+                using (var selectCommand = new SqlCommand(selectQuery, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@NameGenre", nameGenre);
+
+                    var existingId = selectCommand.ExecuteScalar();
+
+                    if (existingId != null)
+                        return Convert.ToInt32(existingId);
+                }
+
+                string insertQuery = """
+                    INSERT INTO Genre (NameGenre)
+                    OUTPUT INSERTED.ID
+                    VALUES (@NameGenre)
+                    """;
+
+                using (var insertCommand = new SqlCommand(insertQuery, connection))
+                {
+                    insertCommand.Parameters.AddWithValue("@NameGenre", nameGenre);
+
+                    return (int)insertCommand.ExecuteScalar()!;
+                }
+            }
+        }
+        #endregion
     }
 }

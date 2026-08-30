@@ -18,15 +18,27 @@
             <a href="#news" class="btn-primary">Read Latest News</a>
         </div>
         <div class="hero-visual" aria-hidden="true">
-            <div class="pulse-widget">
-                <span class="ring ring-1"></span>
-                <span class="ring ring-2"></span>
-                <span class="ring ring-3"></span>
-                <div class="pulse-core">
-                    <svg viewBox="0 0 64 64" width="34" height="34" fill="none">
-                        <path d="M14 22c0-6 5-11 11-11h14c6 0 11 5 11 11v10c0 6-5 11-11 11H27l-9 8v-8c-2 0-4-.9-5.5-2.4C11 39 10 36.9 10 34.8V22z" stroke="#E4D5C3" stroke-width="2.5" stroke-linejoin="round" />
-                    </svg>
+            <div class="orbit-wrap">
+                <div class="pulse-widget">
+                    <span class="ring ring-1"></span>
+                    <span class="ring ring-2"></span>
+                    <span class="ring ring-3"></span>
+                    <div class="pulse-core">
+                        <span class="pulse-quote">&#8220;</span>
+                    </div>
                 </div>
+
+                @{
+                    var orbitGenres = Model.Genres.Take(8).ToList();
+                }
+                @for (int i = 0; i < orbitGenres.Count; i++)
+                {
+                    double angle = i * (360.0 / orbitGenres.Count);
+
+                    <div class="orbit-item" style="--angle:@(angle.ToString(System.Globalization.CultureInfo.InvariantCulture))deg">
+                        <span class="orbit-pill">@orbitGenres[i].NameGenre</span>
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -156,16 +168,6 @@
         <div class="contact-heading">
             <p class="eyebrow">Contact</p>
             <h2>Let's talk</h2>
-        </div>
-        <div class="contact-details">
-            <div class="contact-item">
-                <span class="detail-label">Social Media</span>
-                <div class="social-links">
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter</a>
-                    <a href="#">LinkedIn</a>
-                </div>
-            </div>
         </div>
     </div>
 </section>

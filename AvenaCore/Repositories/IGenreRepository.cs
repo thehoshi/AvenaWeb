@@ -5,7 +5,8 @@ using System.Text;
 
 namespace AvenaCore.Repositories
 {
-    public interface IGenreRepository :IBaseRepository<Genre>
+    public interface IGenreRepository : IBaseRepository<Genre>
     {
+        int GetOrCreate(string nameGenre);
     }
 }

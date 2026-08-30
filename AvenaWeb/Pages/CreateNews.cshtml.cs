@@ -31,7 +31,7 @@ public class CreateNewsModel : PageModel
     public IFormFile? ImageFile { get; set; }
 
     [BindProperty]
-    public int GenreID { get; set; }
+    public string GenreName { get; set; } = "";
 
     public IActionResult OnGet()
     {
@@ -53,14 +53,17 @@ public class CreateNewsModel : PageModel
         }
 
         if (string.IsNullOrWhiteSpace(Title) ||
-            string.IsNullOrWhiteSpace(Info))
+            string.IsNullOrWhiteSpace(Info) ||
+            string.IsNullOrWhiteSpace(GenreName))
         {
-            ModelState.AddModelError("", "Title and text are required.");
+            ModelState.AddModelError("", "Title, text, and genre are required.");
 
             Genres = _genreRepository.GetAll();
 
             return Page();
         }
+
+        int genreId = _genreRepository.GetOrCreate(GenreName.Trim());
 
         string? imagePath = null;
 
@@ -106,7 +109,7 @@ public class CreateNewsModel : PageModel
             Image = imagePath,
             Views = 0,
             CountOfLikes = 0,
-            GenreID = GenreID,
+            GenreID = genreId,
             DateOfPost = DateTime.UtcNow,
             DeletedAt = null
         };
