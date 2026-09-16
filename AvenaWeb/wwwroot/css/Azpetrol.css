@@ -790,6 +790,51 @@ h1, h2, h3, h4 {
         margin-bottom: 22px;
     }
 
+.legal-content h2 {
+    font-size: 1.3rem;
+    margin: 40px 0 14px;
+}
+
+    .legal-content h2:first-child {
+        margin-top: 0;
+    }
+
+.legal-content p {
+    line-height: 1.75;
+}
+
+.legal-content ul {
+    list-style: none;
+    margin: 0 0 22px;
+    padding: 0;
+}
+
+    .legal-content ul li {
+        position: relative;
+        padding-left: 22px;
+        margin-bottom: 12px;
+        color: var(--ink);
+        opacity: .88;
+        line-height: 1.6;
+    }
+
+        .legal-content ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: .6em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--ochre);
+        }
+
+.legal-content a {
+    color: var(--rose);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
 .comments-section {
     max-width: 720px;
     margin: 70px auto 0;
