@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AvenaWeb.Pages
 {
-    public class TermsModel : PageModel
+    public class PrivacyModel : PageModel
     {
         public void OnGet()
         {
