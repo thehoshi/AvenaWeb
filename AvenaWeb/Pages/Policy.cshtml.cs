@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AvenaWeb.Pages
 {
-    public class TermsModel : PageModel
+    public class PolicyModel : PageModel
     {
         public void OnGet()
         {

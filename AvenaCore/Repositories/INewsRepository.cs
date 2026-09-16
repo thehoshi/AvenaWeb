@@ -9,6 +9,7 @@ namespace AvenaCore.Repositories
     {
         List<News> GetByGenreId(int genreId);
         void AddLike(int newsId);
+        void IncrementViews(int newsId);
         int Create(News news);
     }
 }

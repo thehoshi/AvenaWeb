@@ -30,7 +30,7 @@ namespace AvenaPersistentSqlServer.Repositories
             FROM News
             WHERE GenreID = @GenreID
               AND DeletedAt IS NULL
-            ORDER BY DateOfPost DESC
+            ORDER BY DateOfPost DESC, ID DESC
             """;
 
                 using (var command = new SqlCommand(query, connection))
@@ -219,6 +219,30 @@ namespace AvenaPersistentSqlServer.Repositories
 
                     if (rowsCount != 1)
                         throw new Exception("News article was not found.");
+                }
+            }
+        }
+
+        #endregion
+
+        #region IncrementViews
+
+        public void IncrementViews(int newsId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = """
+            UPDATE News
+            SET Views = Views + 1
+            WHERE ID = @ID
+            """;
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@ID", newsId);
+                    command.ExecuteNonQuery();
                 }
             }
         }

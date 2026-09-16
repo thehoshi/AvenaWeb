@@ -39,6 +39,21 @@ public class NewsModel : PageModel
 
         return Page();
     }
+    public IActionResult OnGet(int id)
+    {
+        News = _newsRepository.GetByID(id);
+
+        if (News == null)
+            return NotFound();
+
+        _newsRepository.IncrementViews(id); 
+        News.Views += 1;                    
+
+        Genre = _genreRepository.GetByID(News.GenreID);
+        Comments = _commentRepository.GetByNewsIdWithUser(id);
+
+        return Page();
+    }
 
     public IActionResult OnPost(int NewsId, string CommentText)
     {

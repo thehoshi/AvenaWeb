@@ -10,6 +10,6 @@ public class LogoutModel : PageModel
     {
         await HttpContext.SignOutAsync("AvenaCookie");
 
-        return RedirectToPage("/Index");
+        return RedirectToPage("/Index");    
     }
 }
