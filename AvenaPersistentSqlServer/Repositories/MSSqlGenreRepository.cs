@@ -1,9 +1,6 @@
-﻿using AvenaCore.Entities;
+using AvenaCore.Entities;
 using AvenaCore.Repositories;
-using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Npgsql;
 
 namespace AvenaPersistentSqlServer.Repositories
 {
@@ -18,13 +15,13 @@ namespace AvenaPersistentSqlServer.Repositories
         #region GetAll
         public List<Genre> GetAll()
         {
-            var Genre = new List<Genre>();
+            var genres = new List<Genre>();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                string query = "SELECT * FROM Genre";
-                using (var command = new SqlCommand(query, connection))
+                string query = """SELECT "ID", "NameGenre" FROM "Genre" """;
+                using (var command = new NpgsqlCommand(query, connection))
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -32,26 +29,25 @@ namespace AvenaPersistentSqlServer.Repositories
                         var genre = new Genre()
                         {
                             ID = Convert.ToInt32(reader["ID"]),
-                            NameGenre = (string)reader["Namegenre"]
+                            NameGenre = (string)reader["NameGenre"]
                         };
-                        Genre.Add(genre);
+                        genres.Add(genre);
                     }
                 }
             }
-            return Genre;
+            return genres;
         }
         #endregion
 
         #region Insert
         public void Insert(Genre genre)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
-                string query = "INSERT INTO Genre (NameGenre) " +
-                    "VALUES(@NameGenre)";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                string query = """INSERT INTO "Genre" ("NameGenre") VALUES (@NameGenre)""";
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@NameGenre", genre.NameGenre);
 
@@ -68,13 +64,13 @@ namespace AvenaPersistentSqlServer.Repositories
         #region GetById
         public Genre? GetByID(int id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
-                string query = "SELECT ID, NameGenre FROM Genre WHERE ID = @ID";
+                string query = """SELECT "ID", "NameGenre" FROM "Genre" WHERE "ID" = @ID""";
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@ID", id);
 
@@ -99,13 +95,13 @@ namespace AvenaPersistentSqlServer.Repositories
         #region GetOrCreate
         public int GetOrCreate(string nameGenre)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
-                string selectQuery = "SELECT ID FROM Genre WHERE NameGenre = @NameGenre";
+                string selectQuery = """SELECT "ID" FROM "Genre" WHERE "NameGenre" = @NameGenre""";
 
-                using (var selectCommand = new SqlCommand(selectQuery, connection))
+                using (var selectCommand = new NpgsqlCommand(selectQuery, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@NameGenre", nameGenre);
 
@@ -116,12 +112,12 @@ namespace AvenaPersistentSqlServer.Repositories
                 }
 
                 string insertQuery = """
-                    INSERT INTO Genre (NameGenre)
-                    OUTPUT INSERTED.ID
+                    INSERT INTO "Genre" ("NameGenre")
                     VALUES (@NameGenre)
+                    RETURNING "ID"
                     """;
 
-                using (var insertCommand = new SqlCommand(insertQuery, connection))
+                using (var insertCommand = new NpgsqlCommand(insertQuery, connection))
                 {
                     insertCommand.Parameters.AddWithValue("@NameGenre", nameGenre);
 

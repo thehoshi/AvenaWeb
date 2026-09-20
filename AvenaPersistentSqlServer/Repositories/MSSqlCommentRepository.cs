@@ -1,6 +1,6 @@
-﻿using AvenaCore.Entities;
+using AvenaCore.Entities;
 using AvenaCore.Repositories;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 
 namespace AvenaPersistentSqlServer.Repositories
 {
@@ -19,17 +19,17 @@ namespace AvenaPersistentSqlServer.Repositories
         {
             var comments = new List<Comment>();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-                    SELECT ID, NewsID, UserID, Text, CountOfLikes, DateOfPost
-                    FROM Comment
-                    ORDER BY DateOfPost ASC
+                    SELECT "ID", "NewsID", "UserID", "Text", "CountOfLikes", "DateOfPost"
+                    FROM "Comment"
+                    ORDER BY "DateOfPost" ASC
                     """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -58,18 +58,18 @@ namespace AvenaPersistentSqlServer.Repositories
         {
             var comments = new List<Comment>();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-                    SELECT ID, NewsID, UserID, Text, CountOfLikes, DateOfPost
-                    FROM Comment
-                    WHERE NewsID = @NewsID
-                    ORDER BY DateOfPost ASC
+                    SELECT "ID", "NewsID", "UserID", "Text", "CountOfLikes", "DateOfPost"
+                    FROM "Comment"
+                    WHERE "NewsID" = @NewsID
+                    ORDER BY "DateOfPost" ASC
                     """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@NewsID", newsId);
 
@@ -101,28 +101,28 @@ namespace AvenaPersistentSqlServer.Repositories
         {
             var comments = new List<CommentWithUser>();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
             SELECT
-                c.ID,
-                c.NewsID,
-                c.UserID,
-                c.Text,
-                c.CountOfLikes,
-                c.DateOfPost,
-                u.Username,
-                u.Name,
-                u.AvatarImg
-            FROM Comment c
-            INNER JOIN [User] u ON c.UserID = u.ID
-            WHERE c.NewsID = @NewsID
-            ORDER BY c.DateOfPost ASC
+                c."ID",
+                c."NewsID",
+                c."UserID",
+                c."Text",
+                c."CountOfLikes",
+                c."DateOfPost",
+                u."Username",
+                u."Name",
+                u."AvatarImg"
+            FROM "Comment" c
+            INNER JOIN "User" u ON c."UserID" = u."ID"
+            WHERE c."NewsID" = @NewsID
+            ORDER BY c."DateOfPost" ASC
             """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@NewsID", newsId);
 
@@ -155,18 +155,18 @@ namespace AvenaPersistentSqlServer.Repositories
 
         public void Insert(Comment comment)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-                    INSERT INTO Comment
-                        (Text, DateOfPost, CountOfLikes, NewsID, UserID)
+                    INSERT INTO "Comment"
+                        ("Text", "DateOfPost", "CountOfLikes", "NewsID", "UserID")
                     VALUES
                         (@Text, @DateOfPost, @CountOfLikes, @NewsID, @UserID)
                     """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Text", comment.Text);
                     command.Parameters.AddWithValue("@DateOfPost", comment.DateOfPost);
@@ -188,17 +188,17 @@ namespace AvenaPersistentSqlServer.Repositories
 
         public Comment? GetByID(int id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-                    SELECT ID, NewsID, UserID, Text, CountOfLikes, DateOfPost
-                    FROM Comment
-                    WHERE ID = @ID
+                    SELECT "ID", "NewsID", "UserID", "Text", "CountOfLikes", "DateOfPost"
+                    FROM "Comment"
+                    WHERE "ID" = @ID
                     """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@ID", id);
 

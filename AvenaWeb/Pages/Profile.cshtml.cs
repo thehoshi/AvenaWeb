@@ -4,18 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using AvenaWeb.Services;
 
 namespace AvenaWeb.Pages;
 
 public class ProfileModel : PageModel
 {
     private readonly IUserRepository _userRepository;
+    private readonly IImageStorageService _imageStorageService;
 
     public User? CurrentUser { get; private set; }
 
-    public ProfileModel(IUserRepository userRepository)
+    public ProfileModel(IUserRepository userRepository, IImageStorageService imageStorageService)
     {
         _userRepository = userRepository;
+        _imageStorageService = imageStorageService;
     }
 
     public IActionResult OnGet()
@@ -83,24 +86,20 @@ public class ProfileModel : PageModel
                 return Page();
             }
 
-            var uploadsFolder = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "wwwroot",
-                "images",
-                "avatars");
-
-            Directory.CreateDirectory(uploadsFolder);
-
             var fileName = $"{Guid.NewGuid()}{extension}";
 
-            var filePath = Path.Combine(uploadsFolder, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            var contentType = extension switch
             {
-                await avatarFile.CopyToAsync(stream);
-            }
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".webp" => "image/webp",
+                _ => "application/octet-stream"
+            };
 
-            avatarPath = $"/images/avatars/{fileName}";
+            using (var stream = avatarFile.OpenReadStream())
+            {
+                avatarPath = await _imageStorageService.UploadAsync(stream, fileName, contentType);
+            }
         }
 
         _userRepository.UpdateProfile(userId, name.Trim(), avatarPath);

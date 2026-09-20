@@ -1,13 +1,10 @@
-﻿using AvenaCore.Entities;
+using AvenaCore.Entities;
 using AvenaCore.Repositories;
-using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Npgsql;
 
 namespace AvenaPersistentSqlServer.Repositories
 {
-    public class MSSqlNewsRepository :INewsRepository
+    public class MSSqlNewsRepository : INewsRepository
     {
         private readonly string _connectionString;
         public MSSqlNewsRepository(string connectionString)
@@ -20,20 +17,20 @@ namespace AvenaPersistentSqlServer.Repositories
         {
             var newsList = new List<News>();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-            SELECT ID, Title, Info, Image, DateOfPost,
-                   Views, CountOfLikes, GenreID, DeletedAt
-            FROM News
-            WHERE GenreID = @GenreID
-              AND DeletedAt IS NULL
-            ORDER BY DateOfPost DESC, ID DESC
+            SELECT "ID", "Title", "Info", "Image", "DateOfPost",
+                   "Views", "CountOfLikes", "GenreID", "DeletedAt"
+            FROM "News"
+            WHERE "GenreID" = @GenreID
+              AND "DeletedAt" IS NULL
+            ORDER BY "DateOfPost" DESC, "ID" DESC
             """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@GenreID", genreId);
 
@@ -74,19 +71,19 @@ namespace AvenaPersistentSqlServer.Repositories
         {
             var newsList = new List<News>();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-            SELECT ID, Title, Info, Image, DateOfPost,
-                   Views, CountOfLikes, GenreID, DeletedAt
-            FROM News
-            WHERE DeletedAt IS NULL
-            ORDER BY DateOfPost DESC
+            SELECT "ID", "Title", "Info", "Image", "DateOfPost",
+                   "Views", "CountOfLikes", "GenreID", "DeletedAt"
+            FROM "News"
+            WHERE "DeletedAt" IS NULL
+            ORDER BY "DateOfPost" DESC, "ID" DESC
             """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -123,22 +120,24 @@ namespace AvenaPersistentSqlServer.Repositories
         #region Insert
         public void Insert(News news)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
-                string query = "INSERT INTO News (Title, Info, Image, DateOfPost, Views, CountOfLikes, GenreID, DeletedAt) " +
-                    "VALUES(@Title,@Info,@Image,@DateOfImage,@Views,@CountOfLikes,@GenreID,@DeletedAt)";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                string query = """
+                    INSERT INTO "News" ("Title", "Info", "Image", "DateOfPost", "Views", "CountOfLikes", "GenreID", "DeletedAt")
+                    VALUES (@Title, @Info, @Image, @DateOfPost, @Views, @CountOfLikes, @GenreID, @DeletedAt)
+                    """;
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Title", news.Title);
                     command.Parameters.AddWithValue("@Info", news.Info);
-                    command.Parameters.AddWithValue("@Image", news.Image);
+                    command.Parameters.AddWithValue("@Image", (object?)news.Image ?? DBNull.Value);
                     command.Parameters.AddWithValue("@DateOfPost", news.DateOfPost);
                     command.Parameters.AddWithValue("@Views", news.Views);
                     command.Parameters.AddWithValue("@CountOfLikes", news.CountOfLikes);
                     command.Parameters.AddWithValue("@GenreID", news.GenreID);
-                    command.Parameters.AddWithValue("@DeletedAt", news.DeletedAt);
+                    command.Parameters.AddWithValue("@DeletedAt", (object?)news.DeletedAt ?? DBNull.Value);
 
                     int rowsCount = command.ExecuteNonQuery();
                     if (rowsCount != 1)
@@ -153,18 +152,18 @@ namespace AvenaPersistentSqlServer.Repositories
         #region GetById
         public News? GetByID(int id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-            SELECT ID, Title, Info, Image, Views, CountOfLikes,
-                   GenreID, DateOfPost, DeletedAt
-            FROM News
-            WHERE ID = @ID
+            SELECT "ID", "Title", "Info", "Image", "Views", "CountOfLikes",
+                   "GenreID", "DateOfPost", "DeletedAt"
+            FROM "News"
+            WHERE "ID" = @ID
             """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@ID", id);
 
@@ -201,17 +200,17 @@ namespace AvenaPersistentSqlServer.Repositories
 
         public void AddLike(int newsId)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-            UPDATE News
-            SET CountOfLikes = CountOfLikes + 1
-            WHERE ID = @ID
+            UPDATE "News"
+            SET "CountOfLikes" = "CountOfLikes" + 1
+            WHERE "ID" = @ID
             """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@ID", newsId);
 
@@ -229,17 +228,17 @@ namespace AvenaPersistentSqlServer.Repositories
 
         public void IncrementViews(int newsId)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-            UPDATE News
-            SET Views = Views + 1
-            WHERE ID = @ID
+            UPDATE "News"
+            SET "Views" = "Views" + 1
+            WHERE "ID" = @ID
             """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@ID", newsId);
                     command.ExecuteNonQuery();
@@ -253,19 +252,19 @@ namespace AvenaPersistentSqlServer.Repositories
 
         public int Create(News news)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-            INSERT INTO News
-                (Title, Info, Image, Views, CountOfLikes, GenreID, DateOfPost, DeletedAt)
-            OUTPUT INSERTED.ID
+            INSERT INTO "News"
+                ("Title", "Info", "Image", "Views", "CountOfLikes", "GenreID", "DateOfPost", "DeletedAt")
             VALUES
                 (@Title, @Info, @Image, @Views, @CountOfLikes, @GenreID, @DateOfPost, @DeletedAt)
+            RETURNING "ID"
             """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Title", news.Title);
                     command.Parameters.AddWithValue("@Info", news.Info);

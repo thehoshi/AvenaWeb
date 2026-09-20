@@ -1,6 +1,6 @@
-﻿using AvenaCore.Entities;
+using AvenaCore.Entities;
 using AvenaCore.Repositories;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 
 namespace AvenaPersistentSqlServer.Repositories
 {
@@ -19,16 +19,16 @@ namespace AvenaPersistentSqlServer.Repositories
         {
             var users = new List<User>();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-                    SELECT ID, Username, Name, Password, AvatarImg
-                    FROM [User]
+                    SELECT "ID", "Username", "Name", "Password", "AvatarImg"
+                    FROM "User"
                     """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -54,17 +54,17 @@ namespace AvenaPersistentSqlServer.Repositories
 
         public User? GetByUsername(string username)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-                    SELECT ID, Username, Name, Password, AvatarImg
-                    FROM [User]
-                    WHERE Username = @Username
+                    SELECT "ID", "Username", "Name", "Password", "AvatarImg"
+                    FROM "User"
+                    WHERE "Username" = @Username
                     """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Username", username);
 
@@ -94,17 +94,17 @@ namespace AvenaPersistentSqlServer.Repositories
 
         public User? GetByID(int id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-                    SELECT ID, Username, Name, Password, AvatarImg
-                    FROM [User]
-                    WHERE ID = @ID
+                    SELECT "ID", "Username", "Name", "Password", "AvatarImg"
+                    FROM "User"
+                    WHERE "ID" = @ID
                     """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@ID", id);
 
@@ -134,18 +134,18 @@ namespace AvenaPersistentSqlServer.Repositories
 
         public void Insert(User user)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-                    INSERT INTO [User]
-                        (Username, Name, Password, AvatarImg)
+                    INSERT INTO "User"
+                        ("Username", "Name", "Password", "AvatarImg")
                     VALUES
                         (@Username, @Name, @Password, @AvatarImg)
                     """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Username", user.Username);
                     command.Parameters.AddWithValue("@Name", user.Name);
@@ -166,17 +166,17 @@ namespace AvenaPersistentSqlServer.Repositories
 
         public void UpdateProfile(int id, string name, string avatarImg)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
 
                 string query = """
-                    UPDATE [User]
-                    SET Name = @Name, AvatarImg = @AvatarImg
-                    WHERE ID = @ID
+                    UPDATE "User"
+                    SET "Name" = @Name, "AvatarImg" = @AvatarImg
+                    WHERE "ID" = @ID
                     """;
 
-                using (var command = new SqlCommand(query, connection))
+                using (var command = new NpgsqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@ID", id);
                     command.Parameters.AddWithValue("@Name", name);

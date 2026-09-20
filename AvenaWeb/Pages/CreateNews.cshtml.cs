@@ -3,6 +3,7 @@ using AvenaCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
+using AvenaWeb.Services;
 
 namespace AvenaWeb.Pages;
 
@@ -10,13 +11,16 @@ public class CreateNewsModel : PageModel
 {
     private readonly INewsRepository _newsRepository;
     private readonly IGenreRepository _genreRepository;
+    private readonly IImageStorageService _imageStorageService;
 
     public CreateNewsModel(
         INewsRepository newsRepository,
-        IGenreRepository genreRepository)
+        IGenreRepository genreRepository,
+        IImageStorageService imageStorageService)
     {
         _newsRepository = newsRepository;
         _genreRepository = genreRepository;
+        _imageStorageService = imageStorageService;
     }
 
     public List<Genre> Genres { get; private set; } = new();
@@ -82,24 +86,20 @@ public class CreateNewsModel : PageModel
                 return Page();
             }
 
-            var uploadsFolder = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "wwwroot",
-                "images",
-                "news");
-
-            Directory.CreateDirectory(uploadsFolder);
-
             var fileName = $"{Guid.NewGuid()}{extension}";
 
-            var filePath = Path.Combine(uploadsFolder, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            var contentType = extension switch
             {
-                await ImageFile.CopyToAsync(stream);
-            }
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".webp" => "image/webp",
+                _ => "application/octet-stream"
+            };
 
-            imagePath = $"/images/news/{fileName}";
+            using (var stream = ImageFile.OpenReadStream())
+            {
+                imagePath = await _imageStorageService.UploadAsync(stream, fileName, contentType);
+            }
         }
 
         var news = new News
