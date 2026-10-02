@@ -61,9 +61,9 @@
     };
 
     const genreTranslations = {
-        en: { Politics: "Politics", Technology: "Technology", Sports: "Sports", World: "World", Education: "Education" },
-        ru: { Politics: "Политика", Technology: "Технологии", Sports: "Спорт", World: "Мир", Education: "Образование" },
-        az: { Politics: "Siyasət", Technology: "Texnologiya", Sports: "İdman", World: "Dünya", Education: "Təhsil" }
+        en: { Technology: "Technology", Education: "Education", "Language & Culture": "Language & Culture", "Law & AI": "Law & AI", "International Relations": "International Relations", "Science & Health": "Science & Health" },
+        ru: { Technology: "Технологии", Education: "Образование", "Language & Culture": "Язык и культура", "Law & AI": "Право и ИИ", "International Relations": "Международные отношения", "Science & Health": "Наука и здоровье" },
+        az: { Technology: "Texnologiya", Education: "Təhsil", "Language & Culture": "Dil və mədəniyyət", "Law & AI": "Hüquq və süni intellekt", "International Relations": "Beynəlxalq münasibətlər", "Science & Health": "Elm və sağlamlıq" }
     };
 
     const viewLabels = {

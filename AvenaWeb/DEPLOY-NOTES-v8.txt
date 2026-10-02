@@ -1,0 +1,8 @@
+Avena v8 data reset / seed
+
+1. Run AvenaWeb-Database-Clean-and-Seed-v8.sql in PostgreSQL/Supabase.
+2. This script deletes all rows from Comment, News, Author, Genre, and User, resets identity sequences, then inserts the curated genres, authors, and articles.
+3. Article authors are a separate Author entity. News.AuthorID is nullable, so anonymous articles are valid and do not require a User account.
+4. Article images are local assets under wwwroot/images/articles.
+5. The Asia article duplicate was treated as one post and the 08.08.2026 version was used.
+6. Two supplied documents did not name an author, so those articles remain anonymous.
