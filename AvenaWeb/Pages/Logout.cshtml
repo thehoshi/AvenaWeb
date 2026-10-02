@@ -1,39 +1,8 @@
-﻿@page
-@model LoginModel
+@page
+@model LogoutModel
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Logout";
 }
 
-<section class="profile-page">
-    <div class="section-inner">
-        <div class="profile-card">
-            <h1>Welcome back</h1>
-            <p class="profile-username">Log in to continue to Avena</p>
-
-            @{
-                var formError = ModelState.ContainsKey("") ? ModelState[""]!.Errors.FirstOrDefault()?.ErrorMessage : null;
-            }
-            @if (formError != null)
-            {
-                <p class="form-error">@formError</p>
-            }
-
-            <form method="post" class="profile-form">
-                <label asp-for="Username">Username</label>
-                <input asp-for="Username" autocomplete="username" required />
-                <span asp-validation-for="Username" class="validation-message"></span>
-
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" autocomplete="current-password" required />
-                <span asp-validation-for="Password" class="validation-message"></span>
-
-                <button type="submit" class="btn-primary">Login</button>
-            </form>
-
-            <p class="auth-switch">
-                Don't have an account? <a asp-page="/Register">Register</a>
-            </p>
-        </div>
-    </div>
-</section>
+<div aria-hidden="true"></div>

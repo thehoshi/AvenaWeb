@@ -23,10 +23,10 @@ public class LoginModel : PageModel
     }
 
     [BindProperty]
-    public string Username { get; set; } = string.Empty;
+    public string? Username { get; set; }
 
     [BindProperty]
-    public string Password { get; set; } = string.Empty;
+    public string? Password { get; set; }
 
     public IActionResult OnGet()
     {
@@ -38,7 +38,7 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        Username = Username.Trim();
+        Username = Username?.Trim();
 
         if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
         {
@@ -50,7 +50,7 @@ public class LoginModel : PageModel
 
         try
         {
-            user = _userRepository.GetByUsername(Username);
+            user = _userRepository.GetByUsername(Username!);
         }
         catch
         {
@@ -69,7 +69,7 @@ public class LoginModel : PageModel
         var result = _passwordHasher.VerifyHashedPassword(
             user,
             user.Password,
-            Password);
+            Password!);
 
         if (result == PasswordVerificationResult.Failed)
         {
