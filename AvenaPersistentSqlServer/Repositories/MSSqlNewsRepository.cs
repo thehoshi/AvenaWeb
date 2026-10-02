@@ -22,12 +22,16 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = """
-            SELECT "ID", "Title", "Info", "Image", "DateOfPost",
-                   "Views", "CountOfLikes", "GenreID", "AuthorID", "DeletedAt"
-            FROM "News"
-            WHERE "GenreID" = @GenreID
-              AND "DeletedAt" IS NULL
-            ORDER BY "DateOfPost" DESC, "ID" DESC
+            SELECT n."ID", n."Title", n."Info", n."Image", n."DateOfPost",
+                   n."Views", n."CountOfLikes", n."GenreID", n."AuthorID", n."DeletedAt",
+                   a."ID" AS "AuthorRowID", a."FullName" AS "AuthorFullName",
+                   a."Role" AS "AuthorRole", a."Affiliation" AS "AuthorAffiliation",
+                   a."Location" AS "AuthorLocation"
+            FROM "News" n
+            LEFT JOIN "Author" a ON a."ID" = n."AuthorID"
+            WHERE n."GenreID" = @GenreID
+              AND n."DeletedAt" IS NULL
+            ORDER BY n."DateOfPost" DESC, n."ID" DESC
             """;
 
                 using (var command = new NpgsqlCommand(query, connection))
@@ -54,6 +58,15 @@ namespace AvenaPersistentSqlServer.Repositories
                                 GenreID = Convert.ToInt32(reader["GenreID"]),
                                 AuthorID = reader["AuthorID"] == DBNull.Value ? null : Convert.ToInt32(reader["AuthorID"]),
 
+                                Author = reader["AuthorRowID"] == DBNull.Value ? null : new Author
+                                {
+                                    ID = Convert.ToInt32(reader["AuthorRowID"]),
+                                    FullName = (string)reader["AuthorFullName"],
+                                    Role = reader["AuthorRole"] == DBNull.Value ? null : (string)reader["AuthorRole"],
+                                    Affiliation = reader["AuthorAffiliation"] == DBNull.Value ? null : (string)reader["AuthorAffiliation"],
+                                    Location = reader["AuthorLocation"] == DBNull.Value ? null : (string)reader["AuthorLocation"]
+                                },
+
                                 DeletedAt = reader["DeletedAt"] == DBNull.Value
                                     ? null
                                     : Convert.ToDateTime(reader["DeletedAt"])
@@ -77,11 +90,15 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = """
-            SELECT "ID", "Title", "Info", "Image", "DateOfPost",
-                   "Views", "CountOfLikes", "GenreID", "AuthorID", "DeletedAt"
-            FROM "News"
-            WHERE "DeletedAt" IS NULL
-            ORDER BY "DateOfPost" DESC, "ID" DESC
+            SELECT n."ID", n."Title", n."Info", n."Image", n."DateOfPost",
+                   n."Views", n."CountOfLikes", n."GenreID", n."AuthorID", n."DeletedAt",
+                   a."ID" AS "AuthorRowID", a."FullName" AS "AuthorFullName",
+                   a."Role" AS "AuthorRole", a."Affiliation" AS "AuthorAffiliation",
+                   a."Location" AS "AuthorLocation"
+            FROM "News" n
+            LEFT JOIN "Author" a ON a."ID" = n."AuthorID"
+            WHERE n."DeletedAt" IS NULL
+            ORDER BY n."DateOfPost" DESC, n."ID" DESC
             """;
 
                 using (var command = new NpgsqlCommand(query, connection))
@@ -104,6 +121,15 @@ namespace AvenaPersistentSqlServer.Repositories
                             CountOfLikes = Convert.ToInt32(reader["CountOfLikes"]),
                             GenreID = Convert.ToInt32(reader["GenreID"]),
                             AuthorID = reader["AuthorID"] == DBNull.Value ? null : Convert.ToInt32(reader["AuthorID"]),
+
+                                Author = reader["AuthorRowID"] == DBNull.Value ? null : new Author
+                                {
+                                    ID = Convert.ToInt32(reader["AuthorRowID"]),
+                                    FullName = (string)reader["AuthorFullName"],
+                                    Role = reader["AuthorRole"] == DBNull.Value ? null : (string)reader["AuthorRole"],
+                                    Affiliation = reader["AuthorAffiliation"] == DBNull.Value ? null : (string)reader["AuthorAffiliation"],
+                                    Location = reader["AuthorLocation"] == DBNull.Value ? null : (string)reader["AuthorLocation"]
+                                },
 
                             DeletedAt = reader["DeletedAt"] == DBNull.Value
                                 ? null
@@ -160,10 +186,14 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = """
-            SELECT "ID", "Title", "Info", "Image", "Views", "CountOfLikes",
-                   "GenreID", "AuthorID", "DateOfPost", "DeletedAt"
-            FROM "News"
-            WHERE "ID" = @ID
+            SELECT n."ID", n."Title", n."Info", n."Image", n."Views", n."CountOfLikes",
+                   n."GenreID", n."AuthorID", n."DateOfPost", n."DeletedAt",
+                   a."ID" AS "AuthorRowID", a."FullName" AS "AuthorFullName",
+                   a."Role" AS "AuthorRole", a."Affiliation" AS "AuthorAffiliation",
+                   a."Location" AS "AuthorLocation"
+            FROM "News" n
+            LEFT JOIN "Author" a ON a."ID" = n."AuthorID"
+            WHERE n."ID" = @ID
             """;
 
                 using (var command = new NpgsqlCommand(query, connection))
@@ -186,6 +216,15 @@ namespace AvenaPersistentSqlServer.Repositories
                                 CountOfLikes = Convert.ToInt32(reader["CountOfLikes"]),
                                 GenreID = Convert.ToInt32(reader["GenreID"]),
                                 AuthorID = reader["AuthorID"] == DBNull.Value ? null : Convert.ToInt32(reader["AuthorID"]),
+
+                                Author = reader["AuthorRowID"] == DBNull.Value ? null : new Author
+                                {
+                                    ID = Convert.ToInt32(reader["AuthorRowID"]),
+                                    FullName = (string)reader["AuthorFullName"],
+                                    Role = reader["AuthorRole"] == DBNull.Value ? null : (string)reader["AuthorRole"],
+                                    Affiliation = reader["AuthorAffiliation"] == DBNull.Value ? null : (string)reader["AuthorAffiliation"],
+                                    Location = reader["AuthorLocation"] == DBNull.Value ? null : (string)reader["AuthorLocation"]
+                                },
                                 DateOfPost = Convert.ToDateTime(reader["DateOfPost"]),
                                 DeletedAt = reader["DeletedAt"] == DBNull.Value
                                     ? null

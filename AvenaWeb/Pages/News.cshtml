@@ -21,7 +21,19 @@
                     <span class="meta-value">
                         @if (Model.News.Author != null)
                         {
-                            @Model.News.Author.Name
+                            <span class="author-name">@Model.News.Author.FullName</span>
+                            @if (!string.IsNullOrWhiteSpace(Model.News.Author.Role))
+                            {
+                                <span class="author-detail">@Model.News.Author.Role</span>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.News.Author.Affiliation))
+                            {
+                                <span class="author-detail">@Model.News.Author.Affiliation</span>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.News.Author.Location))
+                            {
+                                <span class="author-detail">@Model.News.Author.Location</span>
+                            }
                         }
                         else
                         {

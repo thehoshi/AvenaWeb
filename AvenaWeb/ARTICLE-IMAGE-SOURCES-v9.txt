@@ -1,0 +1,8 @@
+Article images use free Pexels stock photos. Image URLs are stored directly in News.Image so the deployed site does not need to bundle or hotlink generated artwork.
+
+1. Smartphone: Ron Lach, Pexels photo 10387709
+2. Education in Asia: kimmi jun, Pexels photo 18506750
+3. Language and thought: Polina Tankilevitch, Pexels photo 6929274
+4. Law & AI: Sora Shimazaki, Pexels photo 5668882
+5. Education grants / international education: Gustavo Fring, Pexels photo 5621905
+6. School microbiology: Edward Jenner, Pexels photo 4031434

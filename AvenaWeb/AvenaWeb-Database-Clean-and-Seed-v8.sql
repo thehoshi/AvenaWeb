@@ -242,7 +242,7 @@ https://www.gazeta.ru/social/news/2025/09/02/26628230.shtml
 
 https://www.ndtv.com/health/living-healthy/heres-why-you-shouldnt-use-your-phone-first-thing-in-the-morning-3736925
 
-https://youtu.be/Vj42sRktM_k?si=eWBgYldJcJyexIje$AvenaArticle$,'/images/articles/smartphone.jpg',0,0,1,1,'2026-07-02',NULL),
+https://youtu.be/Vj42sRktM_k?si=eWBgYldJcJyexIje$AvenaArticle$,'https://images.pexels.com/photos/10387709/pexels-photo-10387709.jpeg?cs=srgb&dl=pexels-ron-lach-10387709.jpg&fm=jpg',0,0,1,1,'2026-07-02',NULL),
 (2,'Сравнение образовательных особенностей и методик в Азии',$AvenaArticle$Статья 
                                    «Сравнение образовательных особенностей и методик в Азии»  
  
@@ -521,7 +521,7 @@ ttps://urok.1sept.ru/publication/190891?ysclid=mrszp9yxs351200322
 12.  Informburo, 6.12.2023,  BBC News Русская служба. "В какой стране лучшие школы? Рейтинг PISA 
 возглавил Сингапур, Эстония на первом месте в Европе. Россия впервые не участвовала": https://
 informburo.kz/stati/v-kakoi-strane-lucsie-skoly-reiting-pisa-vozglavil-singapur-estoniya-na-pervom-meste-v-
-evrope-rossiya-vpervye-ne-ucastvovala?ysclid=ms1iq4mr2263678096$AvenaArticle$,'/images/articles/education.png',0,0,2,2,'2026-08-08',NULL),
+evrope-rossiya-vpervye-ne-ucastvovala?ysclid=ms1iq4mr2263678096$AvenaArticle$,'https://images.pexels.com/photos/18506750/pexels-photo-18506750.jpeg?cs=srgb&dl=pexels-kimmi-jun-201206578-18506750.jpg&fm=jpg',0,0,2,2,'2026-08-08',NULL),
 (3,'Влияет ли язык, на котором мы говорим, на наше мышление?',$AvenaArticle$Влияет ли язык на котором мы говорим на наше мышление?
 
 Дата: 18 июля
@@ -571,7 +571,7 @@ evrope-rossiya-vpervye-ne-ucastvovala?ysclid=ms1iq4mr2263678096$AvenaArticle$,'/
 
 5. Boroditsky, L., & Gaby, A. (2010). Remembrances of times East: Absolute spatial representations of time in an Australian aboriginal community. Psychological Science, 21(11), 1635–1639.
 
-6.Aberdeen research group. (2020). Multi-lab replication of Whorfian effects on color perception. Cognition.$AvenaArticle$,'/images/articles/language.jpg',0,0,3,NULL,'2026-07-18',NULL),
+6.Aberdeen research group. (2020). Multi-lab replication of Whorfian effects on color perception. Cognition.$AvenaArticle$,'https://images.pexels.com/photos/6929274/pexels-photo-6929274.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-6929274.jpg&fm=jpg',0,0,3,NULL,'2026-07-18',NULL),
 (4,'Презумпция невиновности умирает в 3 секунды: административное задержание на основе прогноза AI о «вероятном будущем преступлении»',$AvenaArticle$УДК 342.7 
  
 ПРЕЗУМПЦИЯ НЕВИНОВНОСТИ УМИРАЕТ В 3 СЕКУНДЫ: 
@@ -869,7 +869,7 @@ Publishing, 2024. P. 63–80.
 
 7. Terec-Vlad, L., Timofte, E. Ethical and Legal Implicati ons of Predictive 
 Policing Through Cyber Data // Research Handbook in Data Science and Law. 2nd 
-ed. Edward Elgar Publishing, 2024. P. 45–62.$AvenaArticle$,'/images/articles/predictive-ai.jpg',0,0,4,3,'2026-10-03',NULL),
+ed. Edward Elgar Publishing, 2024. P. 45–62.$AvenaArticle$,'https://images.pexels.com/photos/5668882/pexels-photo-5668882.jpeg?cs=srgb&dl=pexels-sora-shimazaki-5668882.jpg&fm=jpg',0,0,4,3,'2026-10-03',NULL),
 (5,'Образовательные гранты как инструмент внешнеполитического влияния государств',$AvenaArticle$Образовательные гранты как инструмент 
 внешнеполитического влияния государств 
 В современной политике образование приобретает все большее значение как ресурс 
@@ -933,7 +933,7 @@ Communications. 2017. Vol. 3. Article 17008.
 2005.  
 4. Nicholas J. Cull. Public Diplomacy: Foundations for Global Engagement in the Digital Age. 
 Cambridge: Polity Press, 2019.  
-5. The Routledge Handbook of Public Diplomacy. Routledge, 2020.$AvenaArticle$,'/images/articles/education-grants.jpg',0,0,5,NULL,'2026-10-03',NULL),
+5. The Routledge Handbook of Public Diplomacy. Routledge, 2020.$AvenaArticle$,'https://images.pexels.com/photos/5621905/pexels-photo-5621905.jpeg?cs=srgb&dl=pexels-gustavo-fring-5621905.jpg&fm=jpg',0,0,5,NULL,'2026-10-03',NULL),
 (6,'Исследование загрязнения поверхности школьной парты микроорганизмами и эффективности её обработки антибактериальными средствами',$AvenaArticle$Цель исследования: изучить степень загрязнения микроорганизмами поверхности школьной парты и оценить эффективность антисептиков и антибиотиков.
 
 Гипотеза: поверхность школьной парты имеет высокую микробную обсемененность, а антисептические средства способны снижать ее уровень с разной эффективностью.
@@ -948,5 +948,5 @@ Cambridge: Polity Press, 2019.
 
 В ходе работы изучалась микробная обсемененность поверхности до и после обработки. В исходном образце было установлено около 3,9 * 10^7 CFU/mL. После обработки антибактериальной салфеткой и антисептиком-спреем получено около 200 CFU/mL. После обработки экспериментальным составом роста не наблюдалось.
 
-Вывод: исследована микробная обсемененность поверхности и эффективность антибактериальных средств. Установлен высокий уровень обсемененности. После обработки наблюдалось значительное снижение количества микроорганизмов, а экспериментальный состав показал наибольшую эффективность.$AvenaArticle$,'/images/articles/school-microbes.jpg',0,0,6,4,'2026-10-03',NULL);
+Вывод: исследована микробная обсемененность поверхности и эффективность антибактериальных средств. Установлен высокий уровень обсемененности. После обработки наблюдалось значительное снижение количества микроорганизмов, а экспериментальный состав показал наибольшую эффективность.$AvenaArticle$,'https://images.pexels.com/photos/4031434/pexels-photo-4031434.jpeg?cs=srgb&dl=pexels-edward-jenner-4031434.jpg&fm=jpg',0,0,6,4,'2026-10-03',NULL);
 COMMIT;
