@@ -11,6 +11,7 @@ public class NewsModel : PageModel
     private readonly INewsRepository _newsRepository;
     private readonly IGenreRepository _genreRepository;
     private readonly ICommentRepository _commentRepository;
+    private readonly IUserRepository _userRepository;
 
     public News? News { get; private set; }
     public Genre? Genre { get; private set; }
@@ -19,11 +20,13 @@ public class NewsModel : PageModel
     public NewsModel(
         INewsRepository newsRepository,
         IGenreRepository genreRepository,
-        ICommentRepository commentRepository)
+        ICommentRepository commentRepository,
+        IUserRepository userRepository)
     {
         _newsRepository = newsRepository;
         _genreRepository = genreRepository;
         _commentRepository = commentRepository;
+        _userRepository = userRepository;
     }
 
     public IActionResult OnGet(int id)
@@ -37,6 +40,7 @@ public class NewsModel : PageModel
         News.Views += 1;
 
         Genre = _genreRepository.GetByID(News.GenreID);
+        News.Author = News.AuthorID.HasValue ? _userRepository.GetByID(News.AuthorID.Value) : null;
 
         Comments = _commentRepository.GetByNewsIdWithUser(id);
 

@@ -15,7 +15,7 @@ namespace AvenaCore.Entities
         public int CountOfLikes { get; set; }
         public int GenreID { get; set; }
         public int? AuthorID { get; set; }
-        public Author? Author { get; set; }
+        public User? Author { get; set; }
         public DateTime DateOfPost { get; set; }
         public DateTime? DeletedAt { get; set; }
     }
