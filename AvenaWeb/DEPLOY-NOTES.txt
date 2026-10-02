@@ -1,0 +1,10 @@
+Avena v5 changes
+- Dark/light mode with localStorage
+- English/Russian/Azerbaijani selector with localStorage
+- Register removed from navigation
+- Registration is available inline on /Login
+- /Register redirects to /Login
+- Logout remains a real POST sign-out
+- CreateNews remains removed
+
+After deployment, hard refresh with Ctrl+F5.

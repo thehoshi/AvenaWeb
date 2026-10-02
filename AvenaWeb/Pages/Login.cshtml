@@ -1,39 +1,49 @@
-﻿@page
+@page
 @model LoginModel
-
 @{
     ViewData["Title"] = "Login";
 }
-
-<section class="profile-page">
+<section class="profile-page auth-page">
     <div class="section-inner">
-        <div class="profile-card">
-            <h1>Welcome back</h1>
-            <p class="profile-username">Log in to continue to Avena</p>
+        <div class="profile-card auth-card">
+            <div class="auth-sparkle" aria-hidden="true">✦</div>
+            <h1 data-i18n="login.welcome">Welcome back</h1>
+            <p class="profile-username" data-i18n="login.subtitle">Log in to continue to Avena</p>
 
-            @{
-                var formError = ModelState.ContainsKey("") ? ModelState[""]!.Errors.FirstOrDefault()?.ErrorMessage : null;
-            }
-            @if (formError != null)
+            @if (!string.IsNullOrWhiteSpace(Model.LoginError))
             {
-                <p class="form-error">@formError</p>
+                <p class="form-error">@Model.LoginError</p>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.RegisterError))
+            {
+                <p class="form-error">@Model.RegisterError</p>
+            }
+            @if (Model.RegistrationSucceeded)
+            {
+                <p class="form-success" data-i18n="register.success">Account created. You are now logged in.</p>
             }
 
-            <form method="post" class="profile-form">
-                <label asp-for="Username">Username</label>
-                <input asp-for="Username" autocomplete="username" required />
-                <span asp-validation-for="Username" class="validation-message"></span>
-
-                <label asp-for="Password">Password</label>
-                <input asp-for="Password" type="password" autocomplete="current-password" required />
-                <span asp-validation-for="Password" class="validation-message"></span>
-
-                <button type="submit" class="btn-primary">Login</button>
+            <form method="post" asp-page-handler="Login" class="profile-form" id="loginForm">
+                <label asp-for="Username" data-i18n="form.username">Username</label>
+                <input asp-for="Username" autocomplete="username" />
+                <label asp-for="Password" data-i18n="form.password">Password</label>
+                <input asp-for="Password" type="password" autocomplete="current-password" />
+                <button type="submit" class="btn-primary" data-i18n="login.button">Login</button>
             </form>
 
-            <p class="auth-switch">
-                Don't have an account? <a asp-page="/Register">Register</a>
-            </p>
+            <div class="auth-divider"><span data-i18n="common.or">or</span></div>
+            <button type="button" class="btn-secondary auth-toggle" id="showRegister" data-i18n="register.create">Create an account</button>
+
+            <form method="post" asp-page-handler="Register" class="profile-form auth-register-form" id="registerForm" hidden>
+                <div class="mini-heading" data-i18n="register.heading">New here? Let's make you an Avena account.</div>
+                <label asp-for="RegisterUsername" data-i18n="form.username">Username</label>
+                <input asp-for="RegisterUsername" autocomplete="username" />
+                <label asp-for="RegisterName" data-i18n="form.name">Name</label>
+                <input asp-for="RegisterName" autocomplete="name" />
+                <label asp-for="RegisterPassword" data-i18n="form.password">Password</label>
+                <input asp-for="RegisterPassword" type="password" autocomplete="new-password" />
+                <button type="submit" class="btn-primary" data-i18n="register.button">Create account</button>
+            </form>
         </div>
     </div>
 </section>

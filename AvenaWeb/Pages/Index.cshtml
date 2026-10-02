@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model IndexModel
 @{
     ViewData["Title"] = "Avena";
@@ -12,10 +12,10 @@
 <section class="hero" id="home">
     <div class="hero-inner">
         <div class="hero-text">
-            <p class="eyebrow">Est. 2026 — An open forum</p>
+            <p class="eyebrow" data-i18n="home.est_an_open_forum">Est. 2026 — An open forum</p>
             <h1>Avena<br>Opinions</h1>
-            <p class="hero-tagline">Opinions shape the future.<br>Stay informed. Stay engaged.</p>
-            <a href="#news" class="btn-primary">Read Latest News</a>
+            <p class="hero-tagline" data-i18n="home.opinions_shape_the_future">Opinions shape the future.<br data-i18n="home.stay_informed_stay_engaged">Stay informed. Stay engaged.</p>
+            <a href="#news" class="btn-primary" data-i18n="home.read_latest_news">Read Latest News</a>
         </div>
         <div class="hero-visual" aria-hidden="true">
             <div class="orbit-wrap">
@@ -48,24 +48,24 @@
 <section class="about" id="about">
     <div class="section-inner about-grid">
         <div class="about-heading">
-            <p class="eyebrow">About the Project</p>
-            <h2>Why this platform exists</h2>
+            <p class="eyebrow" data-i18n="home.about_the_project">About the Project</p>
+            <h2 data-i18n="home.why_this_platform_exists">Why this platform exists</h2>
         </div>
         <div class="about-details">
             <div class="detail-row">
-                <span class="detail-label">Who created it</span>
+                <span class="detail-label" data-i18n="home.who_created_it">Who created it</span>
                 <p>A small collective of writers, editors, and researchers who believe public debate deserves a calmer home.</p>
             </div>
             <div class="detail-row">
-                <span class="detail-label">Mission</span>
+                <span class="detail-label" data-i18n="home.mission">Mission</span>
                 <p>To turn scattered reactions into informed conversation — one article at a time.</p>
             </div>
             <div class="detail-row">
-                <span class="detail-label">Purpose</span>
+                <span class="detail-label" data-i18n="home.purpose">Purpose</span>
                 <p>A space where evidence and opinion sit side by side, so readers can weigh both before they speak.</p>
             </div>
             <div class="detail-row">
-                <span class="detail-label">Year</span>
+                <span class="detail-label" data-i18n="home.year">Year</span>
                 <p>Founded in 2026, built for the conversations still ahead of us.</p>
             </div>
         </div>
@@ -75,12 +75,12 @@
 <!-- LATEST NEWS -->
 <section class="news" id="news">
     <div class="section-inner">
-        <p class="eyebrow">Latest News</p>
-        <h2>What people are talking about</h2>
+        <p class="eyebrow" data-i18n="home.latest_news">Latest News</p>
+        <h2 data-i18n="home.what_people_are_talking_about">What people are talking about</h2>
 
         @if (featured == null)
         {
-            <p>No articles have been published yet. Check back soon.</p>
+            <p data-i18n="home.no_articles_have_been_published_yet_check_back_soon">No articles have been published yet. Check back soon.</p>
         }
         else
         {
@@ -140,10 +140,10 @@
 <!-- TRENDING TOPICS -->
 <section class="trending">
     <div class="section-inner">
-        <p class="eyebrow">Browse by Topic</p>
+        <p class="eyebrow" data-i18n="home.browse_by_topic">Browse by Topic</p>
         @if (!Model.Genres.Any())
         {
-            <p>No topics yet.</p>
+            <p data-i18n="home.no_topics_yet">No topics yet.</p>
         }
         else
         {
@@ -166,8 +166,8 @@
 <section class="contact" id="contact">
     <div class="section-inner contact-grid">
         <div class="contact-heading">
-            <p class="eyebrow">Contact</p>
-            <h2>Let's talk</h2>
+            <p class="eyebrow" data-i18n="home.contact">Contact</p>
+            <h2 data-i18n="home.let_s_talk">Let's talk</h2>
         </div>
     </div>
 </section>
