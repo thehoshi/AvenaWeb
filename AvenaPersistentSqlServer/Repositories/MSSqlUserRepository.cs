@@ -39,7 +39,7 @@ namespace AvenaPersistentSqlServer.Repositories
                             Username = (string)reader["Username"],
                             Name = (string)reader["Name"],
                             Password = (string)reader["Password"],
-                            AvatarImg = (string)reader["AvatarImg"]
+                            AvatarImg = reader.IsDBNull(reader.GetOrdinal("AvatarImg")) ? string.Empty : (string)reader["AvatarImg"]
                         });
                     }
                 }
@@ -78,7 +78,7 @@ namespace AvenaPersistentSqlServer.Repositories
                                 Username = (string)reader["Username"],
                                 Name = (string)reader["Name"],
                                 Password = (string)reader["Password"],
-                                AvatarImg = (string)reader["AvatarImg"]
+                                AvatarImg = reader.IsDBNull(reader.GetOrdinal("AvatarImg")) ? string.Empty : (string)reader["AvatarImg"]
                             };
                         }
                     }
@@ -118,7 +118,7 @@ namespace AvenaPersistentSqlServer.Repositories
                                 Username = (string)reader["Username"],
                                 Name = (string)reader["Name"],
                                 Password = (string)reader["Password"],
-                                AvatarImg = (string)reader["AvatarImg"]
+                                AvatarImg = reader.IsDBNull(reader.GetOrdinal("AvatarImg")) ? string.Empty : (string)reader["AvatarImg"]
                             };
                         }
                     }

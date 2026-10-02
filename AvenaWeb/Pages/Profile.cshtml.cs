@@ -11,14 +11,12 @@ namespace AvenaWeb.Pages;
 public class ProfileModel : PageModel
 {
     private readonly IUserRepository _userRepository;
-    private readonly IImageStorageService _imageStorageService;
 
     public User? CurrentUser { get; private set; }
 
-    public ProfileModel(IUserRepository userRepository, IImageStorageService imageStorageService)
+    public ProfileModel(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _imageStorageService = imageStorageService;
     }
 
     public IActionResult OnGet()
@@ -98,7 +96,8 @@ public class ProfileModel : PageModel
 
             using (var stream = avatarFile.OpenReadStream())
             {
-                avatarPath = await _imageStorageService.UploadAsync(stream, fileName, contentType);
+                var imageStorageService = HttpContext.RequestServices.GetRequiredService<IImageStorageService>();
+                avatarPath = await imageStorageService.UploadAsync(stream, fileName, contentType);
             }
         }
 
