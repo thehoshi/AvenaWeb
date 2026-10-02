@@ -9,12 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 
-builder.Services.AddAuthentication("AvenaCookie")
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = "AvenaCookie";
+        options.DefaultChallengeScheme = "AvenaCookie";
+        options.DefaultSignInScheme = "AvenaCookie";
+    })
     .AddCookie("AvenaCookie", options =>
     {
+        options.Cookie.Name = "Avena.Auth";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
         options.LoginPath = "/Login";
         options.AccessDeniedPath = "/Login";
-
         options.ExpireTimeSpan = TimeSpan.FromDays(20);
         options.SlidingExpiration = true;
     });

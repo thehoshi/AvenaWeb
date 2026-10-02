@@ -61,7 +61,7 @@ namespace AvenaPersistentSqlServer.Repositories
                 string query = """
                     SELECT "ID", "Username", "Name", "Password", "AvatarImg"
                     FROM "User"
-                    WHERE "Username" = @Username
+                    WHERE LOWER("Username") = LOWER(@Username)
                     """;
 
                 using (var command = new NpgsqlCommand(query, connection))

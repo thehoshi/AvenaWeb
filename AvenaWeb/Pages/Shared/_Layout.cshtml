@@ -27,7 +27,6 @@
 
                 @if (User.Identity?.IsAuthenticated == true)
                 {
-                    <a asp-page="/CreateNews">Create post</a>
                     <a asp-page="/Profile">Profile</a>
 
                     <form method="post" asp-page="/Logout">

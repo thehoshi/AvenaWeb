@@ -20,41 +20,64 @@ public class RegisterModel : PageModel
     }
 
     [BindProperty]
-    public string Username { get; set; } = "";
+    public string Username { get; set; } = string.Empty;
 
     [BindProperty]
-    public string Name { get; set; } = "";
+    public string Name { get; set; } = string.Empty;
 
     [BindProperty]
-    public string Password { get; set; } = "";
+    public string Password { get; set; } = string.Empty;
 
     public IActionResult OnPost()
     {
+        Username = Username.Trim();
+        Name = Name.Trim();
+
         if (string.IsNullOrWhiteSpace(Username) ||
             string.IsNullOrWhiteSpace(Name) ||
             string.IsNullOrWhiteSpace(Password))
         {
-            ModelState.AddModelError("", "All fields are required.");
+            ModelState.AddModelError(string.Empty, "All fields are required.");
             return Page();
         }
 
-        if (_userRepository.GetByUsername(Username) != null)
+        if (Username.Length < 3)
         {
-            ModelState.AddModelError("Username", "Username already exists.");
+            ModelState.AddModelError("Username", "Username must contain at least 3 characters.");
             return Page();
         }
 
-        var user = new User
+        if (Password.Length < 6)
         {
-            Username = Username.Trim(),
-            Name = Name.Trim(),
-            Password = "",
-            AvatarImg = ""
-        };
+            ModelState.AddModelError("Password", "Password must contain at least 6 characters.");
+            return Page();
+        }
 
-        user.Password = _passwordHasher.HashPassword(user, Password);
+        try
+        {
+            if (_userRepository.GetByUsername(Username) != null)
+            {
+                ModelState.AddModelError("Username", "Username already exists.");
+                return Page();
+            }
 
-        _userRepository.Insert(user);
+            var user = new User
+            {
+                Username = Username,
+                Name = Name,
+                AvatarImg = string.Empty
+            };
+
+            user.Password = _passwordHasher.HashPassword(user, Password);
+            _userRepository.Insert(user);
+        }
+        catch
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                "Unable to create the account. Please try again later.");
+            return Page();
+        }
 
         return RedirectToPage("/Login");
     }

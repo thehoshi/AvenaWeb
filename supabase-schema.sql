@@ -14,6 +14,10 @@ CREATE TABLE "User" (
     "AvatarImg" TEXT NOT NULL DEFAULT ''
 );
 
+-- Usernames are treated case-insensitively by the application.
+CREATE UNIQUE INDEX IF NOT EXISTS "UX_User_Username_Lower"
+ON "User" (LOWER("Username"));
+
 CREATE TABLE "News" (
     "ID" SERIAL PRIMARY KEY,
     "Title" TEXT NOT NULL,
