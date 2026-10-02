@@ -65,7 +65,8 @@ public class RegisterModel : PageModel
             {
                 Username = Username,
                 Name = Name,
-                AvatarImg = string.Empty
+                AvatarImg = string.Empty,
+                Password = string.Empty
             };
 
             user.Password = _passwordHasher.HashPassword(user, Password);
