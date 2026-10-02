@@ -2,9 +2,7 @@ using AvenaCore.Entities;
 using AvenaCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using AvenaWeb.Services;
 
 namespace AvenaWeb.Pages;
 
@@ -43,7 +41,7 @@ public class ProfileModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(string name, IFormFile? avatarFile)
+    public IActionResult OnPost(string name)
     {
         if (!(User.Identity?.IsAuthenticated ?? false))
         {
@@ -70,38 +68,8 @@ public class ProfileModel : PageModel
             return Page();
         }
 
-        string avatarPath = CurrentUser.AvatarImg;
+        _userRepository.UpdateProfile(userId, name.Trim(), CurrentUser.AvatarImg);
 
-        if (avatarFile != null && avatarFile.Length > 0)
-        {
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
-
-            var extension = Path.GetExtension(avatarFile.FileName).ToLowerInvariant();
-
-            if (!allowedExtensions.Contains(extension))
-            {
-                ModelState.AddModelError(string.Empty, "Only JPG, JPEG, PNG and WebP images are allowed.");
-                return Page();
-            }
-
-            var fileName = $"{Guid.NewGuid()}{extension}";
-
-            var contentType = extension switch
-            {
-                ".jpg" or ".jpeg" => "image/jpeg",
-                ".png" => "image/png",
-                ".webp" => "image/webp",
-                _ => "application/octet-stream"
-            };
-
-            using (var stream = avatarFile.OpenReadStream())
-            {
-                var imageStorageService = HttpContext.RequestServices.GetRequiredService<IImageStorageService>();
-                avatarPath = await imageStorageService.UploadAsync(stream, fileName, contentType);
-            }
-        }
-
-        _userRepository.UpdateProfile(userId, name.Trim(), avatarPath);
 
         return RedirectToPage();
     }

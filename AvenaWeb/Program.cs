@@ -46,7 +46,6 @@ builder.Services.AddScoped<INewsRepository>(_ =>
 builder.Services.AddScoped<ICommentRepository>(_ =>
     new MSSqlCommentRepository(connectionString));
 
-builder.Services.AddSingleton<AvenaWeb.Services.IImageStorageService, AvenaWeb.Services.BlobImageStorageService>();
 
 var app = builder.Build();
 
