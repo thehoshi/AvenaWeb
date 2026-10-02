@@ -23,7 +23,7 @@ namespace AvenaPersistentSqlServer.Repositories
 
                 string query = """
             SELECT "ID", "Title", "Info", "Image", "DateOfPost",
-                   "Views", "CountOfLikes", "GenreID", "DeletedAt"
+                   "Views", "CountOfLikes", "GenreID", "AuthorID", "DeletedAt"
             FROM "News"
             WHERE "GenreID" = @GenreID
               AND "DeletedAt" IS NULL
@@ -52,6 +52,7 @@ namespace AvenaPersistentSqlServer.Repositories
                                 Views = Convert.ToInt32(reader["Views"]),
                                 CountOfLikes = Convert.ToInt32(reader["CountOfLikes"]),
                                 GenreID = Convert.ToInt32(reader["GenreID"]),
+                                AuthorID = reader["AuthorID"] == DBNull.Value ? null : Convert.ToInt32(reader["AuthorID"]),
 
                                 DeletedAt = reader["DeletedAt"] == DBNull.Value
                                     ? null
@@ -77,7 +78,7 @@ namespace AvenaPersistentSqlServer.Repositories
 
                 string query = """
             SELECT "ID", "Title", "Info", "Image", "DateOfPost",
-                   "Views", "CountOfLikes", "GenreID", "DeletedAt"
+                   "Views", "CountOfLikes", "GenreID", "AuthorID", "DeletedAt"
             FROM "News"
             WHERE "DeletedAt" IS NULL
             ORDER BY "DateOfPost" DESC, "ID" DESC
@@ -102,6 +103,7 @@ namespace AvenaPersistentSqlServer.Repositories
                             Views = Convert.ToInt32(reader["Views"]),
                             CountOfLikes = Convert.ToInt32(reader["CountOfLikes"]),
                             GenreID = Convert.ToInt32(reader["GenreID"]),
+                            AuthorID = reader["AuthorID"] == DBNull.Value ? null : Convert.ToInt32(reader["AuthorID"]),
 
                             DeletedAt = reader["DeletedAt"] == DBNull.Value
                                 ? null
@@ -125,8 +127,8 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = """
-                    INSERT INTO "News" ("Title", "Info", "Image", "DateOfPost", "Views", "CountOfLikes", "GenreID", "DeletedAt")
-                    VALUES (@Title, @Info, @Image, @DateOfPost, @Views, @CountOfLikes, @GenreID, @DeletedAt)
+                    INSERT INTO "News" ("Title", "Info", "Image", "DateOfPost", "Views", "CountOfLikes", "GenreID", "AuthorID", "DeletedAt")
+                    VALUES (@Title, @Info, @Image, @DateOfPost, @Views, @CountOfLikes, @GenreID, @AuthorID, @DeletedAt)
                     """;
                 using (var command = new NpgsqlCommand(query, connection))
                 {
@@ -137,6 +139,7 @@ namespace AvenaPersistentSqlServer.Repositories
                     command.Parameters.AddWithValue("@Views", news.Views);
                     command.Parameters.AddWithValue("@CountOfLikes", news.CountOfLikes);
                     command.Parameters.AddWithValue("@GenreID", news.GenreID);
+                    command.Parameters.AddWithValue("@AuthorID", (object?)news.AuthorID ?? DBNull.Value);
                     command.Parameters.AddWithValue("@DeletedAt", (object?)news.DeletedAt ?? DBNull.Value);
 
                     int rowsCount = command.ExecuteNonQuery();
@@ -158,7 +161,7 @@ namespace AvenaPersistentSqlServer.Repositories
 
                 string query = """
             SELECT "ID", "Title", "Info", "Image", "Views", "CountOfLikes",
-                   "GenreID", "DateOfPost", "DeletedAt"
+                   "GenreID", "AuthorID", "DateOfPost", "DeletedAt"
             FROM "News"
             WHERE "ID" = @ID
             """;
@@ -182,6 +185,7 @@ namespace AvenaPersistentSqlServer.Repositories
                                 Views = Convert.ToInt32(reader["Views"]),
                                 CountOfLikes = Convert.ToInt32(reader["CountOfLikes"]),
                                 GenreID = Convert.ToInt32(reader["GenreID"]),
+                                AuthorID = reader["AuthorID"] == DBNull.Value ? null : Convert.ToInt32(reader["AuthorID"]),
                                 DateOfPost = Convert.ToDateTime(reader["DateOfPost"]),
                                 DeletedAt = reader["DeletedAt"] == DBNull.Value
                                     ? null
@@ -258,9 +262,9 @@ namespace AvenaPersistentSqlServer.Repositories
 
                 string query = """
             INSERT INTO "News"
-                ("Title", "Info", "Image", "Views", "CountOfLikes", "GenreID", "DateOfPost", "DeletedAt")
+                ("Title", "Info", "Image", "Views", "CountOfLikes", "GenreID", "AuthorID", "DateOfPost", "DeletedAt")
             VALUES
-                (@Title, @Info, @Image, @Views, @CountOfLikes, @GenreID, @DateOfPost, @DeletedAt)
+                (@Title, @Info, @Image, @Views, @CountOfLikes, @GenreID, @AuthorID, @DateOfPost, @DeletedAt)
             RETURNING "ID"
             """;
 
@@ -276,6 +280,7 @@ namespace AvenaPersistentSqlServer.Repositories
                     command.Parameters.AddWithValue("@Views", news.Views);
                     command.Parameters.AddWithValue("@CountOfLikes", news.CountOfLikes);
                     command.Parameters.AddWithValue("@GenreID", news.GenreID);
+                    command.Parameters.AddWithValue("@AuthorID", (object?)news.AuthorID ?? DBNull.Value);
                     command.Parameters.AddWithValue("@DateOfPost", news.DateOfPost);
 
                     command.Parameters.AddWithValue(

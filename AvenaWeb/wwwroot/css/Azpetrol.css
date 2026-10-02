@@ -1224,3 +1224,118 @@ html[data-theme="dark"] .form-success { background: #17392b; color: #a7e2c3; }
     .nav-tools { margin-top: 8px; }
     .nav-links.open .nav-tools { display: flex; }
 }
+
+/* ========== AVENA v6: CONSISTENT THEME SYSTEM ========== */
+:root {
+    --burgundy: #112250;
+    --burgundy-deep: #0B1836;
+    --cream: #F5F0E9;
+    --cream-light: #D9CBC2;
+    --ink: #24314F;
+    --ochre: #E0C59F;
+    --rose: #60708F;
+}
+
+html, body,
+.navbar, .footer, .hero, .about, .news, .trending, .contact,
+.profile-card, .news-card, .featured-article, .article-page,
+.article-body, .comments-section, .profile-form input, .profile-form select,
+.profile-form textarea, .tag, .orbit-pill, .topic-pill, .btn-primary,
+.btn-secondary, .icon-control, .language-control select, h1, h2, h3, h4, p, a, label, span {
+    transition: background-color .45s ease, color .45s ease, border-color .45s ease,
+                box-shadow .45s ease, opacity .3s ease;
+}
+
+html[data-theme="dark"] {
+    --burgundy: #112250;
+    --burgundy-deep: #0B1836;
+    --cream: #F5F0E9;
+    --cream-light: #24283A;
+    --ink: #F5F0E9;
+    --ochre: #E0C59F;
+    --rose: #C8C0B8;
+}
+
+html[data-theme="dark"] body { background: #171A2A; color: var(--ink); }
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] .detail-label,
+html[data-theme="dark"] .profile-form label,
+html[data-theme="dark"] .read-more,
+html[data-theme="dark"] .profile-card h1 { color: var(--ink); }
+html[data-theme="dark"] .hero,
+html[data-theme="dark"] .news,
+html[data-theme="dark"] .genre-page,
+html[data-theme="dark"] .article-page,
+html[data-theme="dark"] .profile-page { background: #171A2A; }
+html[data-theme="dark"] .about { background: #202438; }
+html[data-theme="dark"] .navbar { background: #0B1836; }
+html[data-theme="dark"] .footer { background: #0B1836; }
+html[data-theme="dark"] .profile-card,
+html[data-theme="dark"] .news-card { background: #24283A; border-color: rgba(224,197,159,.18); }
+html[data-theme="dark"] .featured-article { background: transparent; border-color: rgba(224,197,159,.22); }
+html[data-theme="dark"] .featured-body p,
+html[data-theme="dark"] .news-card p,
+html[data-theme="dark"] .detail-row p,
+html[data-theme="dark"] .article-content p,
+html[data-theme="dark"] .legal-content p,
+html[data-theme="dark"] .legal-content li { color: #E8E0D7; opacity: .92; }
+html[data-theme="dark"] .profile-form input,
+html[data-theme="dark"] .profile-form select,
+html[data-theme="dark"] .profile-form textarea { background: #171A2A; color: #F5F0E9; border-color: rgba(224,197,159,.30); }
+html[data-theme="dark"] .profile-form input::placeholder,
+html[data-theme="dark"] .profile-form textarea::placeholder { color: #AAA7A3; }
+html[data-theme="dark"] .orbit-pill { background: #171A2A; color: #F5F0E9; border-color: var(--ochre); }
+html[data-theme="dark"] .tag { background: var(--burgundy); color: var(--cream); }
+html[data-theme="dark"] .auth-divider { color: var(--rose); }
+html[data-theme="dark"] .btn-secondary { color: #F5F0E9; border-color: var(--ochre); }
+html[data-theme="dark"] .btn-secondary:hover { background: var(--ochre); color: #112250; }
+html[data-theme="dark"] .icon-control,
+html[data-theme="dark"] .language-control select { background: rgba(245,240,233,.06); color: #F5F0E9; border-color: rgba(224,197,159,.35); }
+html[data-theme="dark"] .language-control option { background: #171A2A; color: #F5F0E9; }
+html[data-theme="dark"] .form-error { background: #3A2428; color: #F5C9C9; }
+html[data-theme="dark"] .article-meta,
+html[data-theme="dark"] .genre-card-meta,
+html[data-theme="dark"] .profile-username { color: var(--rose); }
+
+/* Article typography: wide, calm, readable and respectful of author line breaks. */
+.article-header { max-width: 900px; }
+.article-header h1 { max-width: 900px; }
+.article-meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(17,34,80,.14);
+}
+.article-meta-item { display: flex; flex-direction: column; gap: 3px; min-width: 130px; }
+.meta-label {
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-weight: 700;
+    color: var(--rose);
+}
+.meta-value { font-size: .94rem; font-weight: 600; color: var(--ink); }
+.article-hero-image { max-width: 1080px; margin-bottom: 58px; }
+.article-body { max-width: 900px; }
+.article-content { width: 100%; font-size: 1.08rem; line-height: 1.85; }
+.article-content p { margin: 0 0 1.45em; color: var(--ink); white-space: pre-line; }
+.article-content p:last-child { margin-bottom: 0; }
+.article-content p:first-child::first-letter { font-family: var(--font-display); font-size: 1.25em; }
+.comments-section { max-width: 900px; }
+
+/* Keep the registration as a separate page, with the same architecture as Profile/Login. */
+.auth-register-link { display: block; text-align: center; text-decoration: none; }
+.auth-register-link:hover { text-decoration: none; }
+
+@media (max-width: 700px) {
+    .article-page { padding-top: 52px; }
+    .article-meta-grid { gap: 16px; }
+    .article-meta-item { min-width: 42%; }
+    .article-body, .article-header, .comments-section { max-width: 100%; }
+    .article-content { font-size: 1rem; line-height: 1.78; }
+}

@@ -1,10 +1,13 @@
-Avena v5 changes
-- Dark/light mode with localStorage
-- English/Russian/Azerbaijani selector with localStorage
-- Register removed from navigation
-- Registration is available inline on /Login
-- /Register redirects to /Login
-- Logout remains a real POST sign-out
-- CreateNews remains removed
+Avena v6 changes
+- Dark/light mode uses the original Avena navy, cream and ochre palette, with smooth transitions.
+- English/Russian/Azerbaijani UI translations are persisted in localStorage.
+- Genre names are translated in the UI without changing database values.
+- Registration is a separate /Register page again and is linked from /Login.
+- CreateNews/Create post remains removed.
+- Logout remains a real POST sign-out.
+- News now supports an optional AuthorID; anonymous articles are valid.
+- Article pages show genre, author, publication date and views as structured metadata.
+- Article body preserves author-entered line breaks and renders in a wider readable column.
+- Run AvenaWeb/AvenaWeb-Database-Migration-v6.sql once against the existing PostgreSQL database before deploying.
 
-After deployment, hard refresh with Ctrl+F5.
+After deployment, hard refresh with Ctrl+F5. If the favicon is still cached, close the old tab and reopen the site.

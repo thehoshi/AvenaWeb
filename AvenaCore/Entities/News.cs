@@ -1,4 +1,4 @@
-﻿using AvenaCore.Entities.Interfaces;
+using AvenaCore.Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +14,8 @@ namespace AvenaCore.Entities
         public int Views { get; set; }
         public int CountOfLikes { get; set; }
         public int GenreID { get; set; }
+        public int? AuthorID { get; set; }
+        public User? Author { get; set; }
         public DateTime DateOfPost { get; set; }
         public DateTime? DeletedAt { get; set; }
     }

@@ -22,13 +22,7 @@ public class LoginModel : PageModel
 
     [BindProperty] public string? Username { get; set; }
     [BindProperty] public string? Password { get; set; }
-    [BindProperty] public string? RegisterUsername { get; set; }
-    [BindProperty] public string? RegisterName { get; set; }
-    [BindProperty] public string? RegisterPassword { get; set; }
-
     public string? LoginError { get; private set; }
-    public string? RegisterError { get; private set; }
-    public bool RegistrationSucceeded { get; private set; }
 
     public IActionResult OnGet()
     {
@@ -58,57 +52,6 @@ public class LoginModel : PageModel
 
         await SignInUserAsync(user);
         return RedirectToPage("/Index");
-    }
-
-    public async Task<IActionResult> OnPostRegisterAsync()
-    {
-        RegisterUsername = RegisterUsername?.Trim();
-        RegisterName = RegisterName?.Trim();
-
-        if (string.IsNullOrWhiteSpace(RegisterUsername) || string.IsNullOrWhiteSpace(RegisterName) || string.IsNullOrWhiteSpace(RegisterPassword))
-        {
-            RegisterError = "All registration fields are required.";
-            return Page();
-        }
-        if (RegisterUsername.Length < 3)
-        {
-            RegisterError = "Username must contain at least 3 characters.";
-            return Page();
-        }
-        if (RegisterPassword.Length < 6)
-        {
-            RegisterError = "Password must contain at least 6 characters.";
-            return Page();
-        }
-
-        try
-        {
-            if (_userRepository.GetByUsername(RegisterUsername) != null)
-            {
-                RegisterError = "Username already exists.";
-                return Page();
-            }
-
-            var user = new User
-            {
-                Username = RegisterUsername,
-                Name = RegisterName,
-                AvatarImg = string.Empty,
-                Password = string.Empty
-            };
-            user.Password = _passwordHasher.HashPassword(user, RegisterPassword);
-            _userRepository.Insert(user);
-
-            var createdUser = _userRepository.GetByUsername(RegisterUsername) ?? user;
-            await SignInUserAsync(createdUser);
-            RegistrationSucceeded = true;
-            return RedirectToPage("/Index");
-        }
-        catch
-        {
-            RegisterError = "Unable to create the account. Please try again later.";
-            return Page();
-        }
     }
 
     private Task SignInUserAsync(User user)

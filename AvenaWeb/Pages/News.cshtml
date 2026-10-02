@@ -1,4 +1,4 @@
-﻿@page "/news/{id:int}"
+@page "/news/{id:int}"
 @model NewsModel
 
 @{
@@ -9,12 +9,35 @@
     <div class="section-inner article-header">
         @if (Model.Genre != null)
         {
-            <a href="/genre/@Model.Genre.ID" class="tag">@Model.Genre.NameGenre</a>
+            <a href="/genre/@Model.Genre.ID" class="tag" data-genre="@Model.Genre.NameGenre">@Model.Genre.NameGenre</a>
         }
         <h1>@Model.News?.Title</h1>
+
         @if (Model.News != null)
         {
-            <p class="article-meta">@Model.News.DateOfPost.ToString("MMMM d, yyyy") · @Model.News.Views view@(Model.News.Views == 1 ? "" : "s")</p>
+            <div class="article-meta-grid">
+                <div class="article-meta-item">
+                    <span class="meta-label" data-i18n="article.author">Author</span>
+                    <span class="meta-value">
+                        @if (Model.News.Author != null)
+                        {
+                            @Model.News.Author.Name
+                        }
+                        else
+                        {
+                            <span data-i18n="article.anonymous">Anonymous</span>
+                        }
+                    </span>
+                </div>
+                <div class="article-meta-item">
+                    <span class="meta-label" data-i18n="article.date">Published</span>
+                    <span class="meta-value localized-date" data-date="@Model.News.DateOfPost.ToString("o")"></span>
+                </div>
+                <div class="article-meta-item">
+                    <span class="meta-label" data-i18n="article.views">Views</span>
+                    <span class="meta-value localized-views" data-count="@Model.News.Views"></span>
+                </div>
+            </div>
         }
     </div>
 
@@ -24,15 +47,20 @@
     }
 
     <div class="section-inner article-body">
-        <p>@Model.News?.Info</p>
+        <div class="article-content">
+            @foreach (var paragraph in (Model.News?.Info ?? string.Empty).Split(new[] { "\r\n\r\n", "\n\n" }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                <p>@paragraph.Trim()</p>
+            }
+        </div>
     </div>
 
     <div class="section-inner comments-section">
-        <h2>Comments</h2>
+        <h2 data-i18n="article.comments">Comments</h2>
 
         @if (!Model.Comments.Any())
         {
-            <p class="login-prompt">No comments yet — be the first to share your take.</p>
+            <p class="login-prompt" data-i18n="article.no_comments">No comments yet — be the first to share your take.</p>
         }
         else
         {
@@ -49,7 +77,7 @@
                     }
                     <div class="comment-item-body">
                         <strong>@comment.Username</strong>
-                        <span class="comment-date">@comment.DateOfPost.ToString("MMMM d, yyyy")</span>
+                        <span class="comment-date localized-date" data-date="@comment.DateOfPost.ToString("o")"></span>
                         <p>@comment.Text</p>
                     </div>
                 </div>
@@ -59,34 +87,26 @@
         @if (User.Identity?.IsAuthenticated == true)
         {
             <div class="comment-form-section">
-                <h2>Leave a comment</h2>
-
+                <h2 data-i18n="article.leave_comment">Leave a comment</h2>
                 <form method="post" class="comment-form" id="commentForm">
                     <input type="hidden" name="NewsId" value="@Model.News?.ID" />
-
-                    <textarea name="CommentText"
-                              id="commentText"
-                              rows="4"
-                              placeholder="Write your comment... (Enter to post, Shift+Enter for a new line)"
-                              required></textarea>
-
-                    <button type="submit" class="btn-primary">Post comment</button>
+                    <textarea name="CommentText" id="commentText" rows="5" data-i18n-placeholder="article.comment_placeholder" placeholder="Write your comment... (Enter to post, Shift+Enter for a new line)" required></textarea>
+                    <button type="submit" class="btn-primary" data-i18n="article.post_comment">Post comment</button>
                 </form>
-
                 <script>
-                                document.getElementById("commentText").addEventListener("keydown", function(event) {
-                                    if (event.key === "Enter" && !event.shiftKey) {
-                                        event.preventDefault();
-                                        document.getElementById("commentForm").requestSubmit();
-                                    }
-                                });
+                    document.getElementById("commentText")?.addEventListener("keydown", function(event) {
+                        if (event.key === "Enter" && !event.shiftKey) {
+                            event.preventDefault();
+                            document.getElementById("commentForm").requestSubmit();
+                        }
+                    });
                 </script>
             </div>
         }
         else
         {
             <p class="login-prompt comment-form-section">
-                <a asp-page="/Login">Login</a> to leave a comment.
+                <a asp-page="/Login" data-i18n="article.login_to_comment">Login</a> <span data-i18n="article.to_comment">to leave a comment.</span>
             </p>
         }
     </div>

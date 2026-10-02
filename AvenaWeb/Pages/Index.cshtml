@@ -2,6 +2,7 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Avena";
+    ViewData["I18nTitle"] = "page.home";
     var featured = Model.News.FirstOrDefault();
     var rest = Model.News.Skip(1).Take(6).ToList();
 }
@@ -14,7 +15,7 @@
         <div class="hero-text">
             <p class="eyebrow" data-i18n="home.est_an_open_forum">Est. 2026 — An open forum</p>
             <h1>Avena<br>Opinions</h1>
-            <p class="hero-tagline" data-i18n="home.opinions_shape_the_future">Opinions shape the future.<br data-i18n="home.stay_informed_stay_engaged">Stay informed. Stay engaged.</p>
+            <p class="hero-tagline"><span data-i18n="home.opinions_shape_the_future">Opinions shape the future.</span><br><span data-i18n="home.stay_informed_stay_engaged">Stay informed. Stay engaged.</span></p>
             <a href="#news" class="btn-primary" data-i18n="home.read_latest_news">Read Latest News</a>
         </div>
         <div class="hero-visual" aria-hidden="true">
@@ -54,19 +55,19 @@
         <div class="about-details">
             <div class="detail-row">
                 <span class="detail-label" data-i18n="home.who_created_it">Who created it</span>
-                <p>A small collective of writers, editors, and researchers who believe public debate deserves a calmer home.</p>
+                <p data-i18n="home.created_text">A small collective of writers, editors, and researchers who believe public debate deserves a calmer home.</p>
             </div>
             <div class="detail-row">
                 <span class="detail-label" data-i18n="home.mission">Mission</span>
-                <p>To turn scattered reactions into informed conversation — one article at a time.</p>
+                <p data-i18n="home.mission_text">To turn scattered reactions into informed conversation — one article at a time.</p>
             </div>
             <div class="detail-row">
                 <span class="detail-label" data-i18n="home.purpose">Purpose</span>
-                <p>A space where evidence and opinion sit side by side, so readers can weigh both before they speak.</p>
+                <p data-i18n="home.purpose_text">A space where evidence and opinion sit side by side, so readers can weigh both before they speak.</p>
             </div>
             <div class="detail-row">
                 <span class="detail-label" data-i18n="home.year">Year</span>
-                <p>Founded in 2026, built for the conversations still ahead of us.</p>
+                <p data-i18n="home.year_text">Founded in 2026, built for the conversations still ahead of us.</p>
             </div>
         </div>
     </div>
@@ -99,11 +100,11 @@
                 <div class="featured-body">
                     @if (featuredGenre != null)
                     {
-                        <span class="tag">@featuredGenre.NameGenre</span>
+                        <span class="tag" data-genre="@featuredGenre.NameGenre">@featuredGenre.NameGenre</span>
                     }
                     <h3>@featured.Title</h3>
                     <p>@featuredExcerpt</p>
-                    <a href="/news/@featured.ID" class="read-more">Read More <span aria-hidden="true">→</span></a>
+                    <a href="/news/@featured.ID" class="read-more"><span data-i18n="common.read_more">Read More</span> <span aria-hidden="true">→</span></a>
                 </div>
             </article>
 
@@ -125,10 +126,10 @@
                             }
                             @if (genre != null)
                             {
-                                <span class="tag">@genre.NameGenre</span>
+                                <span class="tag" data-genre="@genre.NameGenre">@genre.NameGenre</span>
                             }
                             <h4><a href="/news/@news.ID">@news.Title</a></h4>
-                            <a href="/news/@news.ID" class="read-more">Read More <span aria-hidden="true">→</span></a>
+                            <a href="/news/@news.ID" class="read-more"><span data-i18n="common.read_more">Read More</span> <span aria-hidden="true">→</span></a>
                         </article>
                     }
                 </div>
@@ -150,7 +151,7 @@
             <div class="topic-list">
                 @foreach (var genre in Model.Genres)
                 {
-                    <a href="/genre/@genre.ID" class="topic-pill">@genre.NameGenre</a>
+                    <a href="/genre/@genre.ID" class="topic-pill" data-genre="@genre.NameGenre">@genre.NameGenre</a>
                 }
             </div>
         }
@@ -159,7 +160,7 @@
 
 <!-- QUOTE BANNER -->
 <section class="quote-banner">
-    <p>"Every opinion matters when it is supported by facts."</p>
+    <p data-i18n="home.quote">"Every opinion matters when it is supported by facts."</p>
 </section>
 
 <!-- CONTACT -->

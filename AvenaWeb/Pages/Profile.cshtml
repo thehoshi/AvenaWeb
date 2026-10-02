@@ -1,8 +1,9 @@
-﻿@page
+@page
 @model ProfileModel
 
 @{
     ViewData["Title"] = "Profile";
+    ViewData["I18nTitle"] = "page.profile";
 }
 
 <section class="profile-page">
@@ -28,16 +29,16 @@
                 }
 
                 <form method="post" class="profile-form" enctype="multipart/form-data">
-                    <label for="name">Display name</label>
+                    <label for="name"><span data-i18n="profile.display_name">Display name</span></label>
                     <input type="text" id="name" name="name" value="@Model.CurrentUser.Name" required />
 
-                    <label for="avatarFile">Avatar image</label>
+                    <label for="avatarFile"><span data-i18n="profile.avatar_image">Avatar image</span></label>
                     <input type="file"
                            id="avatarFile"
                            name="avatarFile"
                            accept=".jpg,.jpeg,.png,.webp" />
 
-                    <button type="submit" class="btn-primary">Save changes</button>
+                    <button type="submit" class="btn-primary"><span data-i18n="profile.save">Save changes</span></button>
                 </form>
             </div>
         }

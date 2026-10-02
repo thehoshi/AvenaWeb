@@ -1,3 +1,36 @@
 @page
 @model RegisterModel
-@{ ViewData["Title"] = "Login"; }
+@{
+    ViewData["Title"] = "Register";
+    ViewData["I18nTitle"] = "page.register";
+}
+
+<section class="profile-page auth-page">
+    <div class="section-inner">
+        <div class="profile-card auth-card">
+            <div class="auth-sparkle" aria-hidden="true">✦</div>
+            <h1 data-i18n="register.title">Create your Avena account</h1>
+            <p class="profile-username" data-i18n="register.subtitle">Join the conversation.</p>
+
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <p class="form-error" data-server-message="@Model.ErrorMessage">@Model.ErrorMessage</p>
+            }
+
+            <form method="post" class="profile-form">
+                <label asp-for="Username" data-i18n="form.username">Username</label>
+                <input asp-for="Username" autocomplete="username" />
+
+                <label asp-for="Name" data-i18n="form.name">Name</label>
+                <input asp-for="Name" autocomplete="name" />
+
+                <label asp-for="Password" data-i18n="form.password">Password</label>
+                <input asp-for="Password" type="password" autocomplete="new-password" />
+
+                <button type="submit" class="btn-primary" data-i18n="register.button">Create account</button>
+            </form>
+
+            <p class="auth-switch"><span data-i18n="register.have_account">Already have an account?</span> <a asp-page="/Login" data-i18n="nav.login">Login</a></p>
+        </div>
+    </div>
+</section>

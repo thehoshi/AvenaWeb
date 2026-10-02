@@ -1,4 +1,4 @@
-﻿@page "/genre/{id:int}"
+@page "/genre/{id:int}"
 @model GenreModel
 
 @{
@@ -8,13 +8,13 @@
 <section class="genre-page">
     <div class="section-inner">
         <div class="genre-header">
-            <p class="eyebrow">Genre</p>
-            <h1>@Model.Genre?.NameGenre</h1>
+            <p class="eyebrow" data-i18n="article.genre">Genre</p>
+            <h1 data-genre="@Model.Genre?.NameGenre">@Model.Genre?.NameGenre</h1>
         </div>
 
         @if (!Model.News.Any())
         {
-            <p>No articles in this genre yet.</p>
+            <p data-i18n="genre.empty">No articles in this genre yet.</p>
         }
         else
         {
@@ -34,8 +34,8 @@
                         }
                         <h4><a href="/news/@news.ID">@news.Title</a></h4>
                         <p>@excerpt</p>
-                        <p class="genre-card-meta">@news.DateOfPost.ToString("MMM d, yyyy") · @news.Views view@(news.Views == 1 ? "" : "s")</p>
-                        <a href="/news/@news.ID" class="read-more">Read More <span aria-hidden="true">→</span></a>
+                        <p class="genre-card-meta"><span class="localized-date" data-date="@news.DateOfPost.ToString("o")"></span> · <span class="localized-views" data-count="@news.Views"></span></p>
+                        <a href="/news/@news.ID" class="read-more"><span data-i18n="common.read_more">Read More</span> <span aria-hidden="true">→</span></a>
                     </article>
                 }
             </div>
