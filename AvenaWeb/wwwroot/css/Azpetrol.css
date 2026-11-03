@@ -1891,17 +1891,30 @@ html, body,
     cursor: pointer;
 }
 
-.admin-inline-create {
-    display: grid;
-    gap: 8px;
-    padding: 12px;
-    border: 1px solid rgba(17,34,80,.12);
-    border-radius: 8px;
-    background: rgba(17,34,80,.035);
+.admin-topic-creator {
+    display: block;
 }
 
-    .admin-inline-create[hidden] {
+    .admin-topic-creator > summary {
+        list-style: none;
+    }
+
+        .admin-topic-creator > summary::-webkit-details-marker {
+            display: none;
+        }
+
+    .admin-topic-creator:not([open]) > .admin-inline-create {
         display: none;
+    }
+
+    .admin-topic-creator[open] > .admin-inline-create {
+        display: grid;
+        gap: 8px;
+        margin-top: 4px;
+        padding: 12px;
+        border: 1px solid rgba(17,34,80,.12);
+        border-radius: 8px;
+        background: rgba(17,34,80,.035);
     }
 
 .admin-inline-row {
