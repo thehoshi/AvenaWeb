@@ -32,4 +32,15 @@ public class NewsController : ControllerBase
 
         return Ok(news);
     }
+
+    [HttpGet("{slug}")]
+    public IActionResult GetBySlug(string slug)
+    {
+        var news = _newsRepository.GetBySlug(slug);
+
+        if (news == null)
+            return NotFound();
+
+        return Ok(news);
+    }
 }

@@ -1,4 +1,4 @@
-@page "/news/{id:int}"
+@page "/news/{slug}"
 @model NewsModel
 
 @{
@@ -60,10 +60,7 @@
 
     <div class="section-inner article-body">
         <div class="article-content">
-            @foreach (var paragraph in (Model.News?.Info ?? string.Empty).Split(new[] { "\r\n\r\n", "\n\n" }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                <p>@paragraph.Trim()</p>
-            }
+            @Html.Raw(AvenaWeb.Services.NewsMarkdown.ToHtml(Model.News?.Info ?? string.Empty))
         </div>
     </div>
 

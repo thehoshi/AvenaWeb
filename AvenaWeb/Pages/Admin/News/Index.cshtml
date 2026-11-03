@@ -1,0 +1,58 @@
+@page
+@model AvenaWeb.Pages.Admin.News.IndexModel
+@{
+    ViewData["Title"] = "News administration";
+}
+
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+<section class="admin-page section-inner">
+    <div class="admin-header">
+        <div>
+            <p class="eyebrow">Avena newsroom</p>
+            <h1>Manage news</h1>
+            <p>Write articles, keep drafts private, and publish when they are ready.</p>
+        </div>
+        <a class="btn-primary" asp-page="./Edit">Create article</a>
+    </div>
+
+    @if (!Model.Articles.Any())
+    {
+        <div class="admin-empty">
+            <h2>No articles yet</h2>
+            <p>Create a draft to start writing your first AvenaNews article.</p>
+            <a class="btn-primary" asp-page="./Edit">Create article</a>
+        </div>
+    }
+    else
+    {
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Article</th>
+                        <th>Status</th>
+                        <th>Last updated</th>
+                        <th><span class="sr-only">Actions</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var article in Model.Articles)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@article.Title</strong>
+                                @if (!string.IsNullOrWhiteSpace(article.Summary))
+                                {
+                                    <span class="admin-summary">@article.Summary</span>
+                                }
+                            </td>
+                            <td><span class="admin-status @article.Status">@article.Status</span></td>
+                            <td>@((article.UpdatedAt ?? article.PublishedAt ?? article.DateOfPost).ToLocalTime().ToString("MMM d, yyyy"))</td>
+                            <td><a class="admin-edit-link" asp-page="./Edit" asp-route-id="@article.ID">Edit</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

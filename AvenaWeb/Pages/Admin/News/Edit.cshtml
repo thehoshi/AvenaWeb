@@ -1,0 +1,88 @@
+@page "{id:int?}"
+@model AvenaWeb.Pages.Admin.News.EditModel
+@{
+    ViewData["Title"] = Model.Article == null ? "Create news article" : "Edit news article";
+}
+
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+<section class="admin-page section-inner">
+    <div class="admin-header">
+        <div>
+            <a class="admin-back-link" asp-page="./Index">← All articles</a>
+            <p class="eyebrow">Avena newsroom</p>
+            <h1>@(Model.Article == null ? "Create article" : "Edit article")</h1>
+            @if (Model.Article != null)
+            {
+                <p>Current status: <span class="admin-status @Model.Status">@Model.Status</span></p>
+            }
+        </div>
+    </div>
+
+    @if (!Model.Genres.Any())
+    {
+        <div class="admin-alert error" role="alert">Add at least one topic before creating an article.</div>
+    }
+    else
+    {
+        <form id="newsEditor" class="admin-editor" method="post" data-news-id="@Model.Id">
+            @Html.AntiForgeryToken()
+            <div class="admin-form-grid">
+                <div class="admin-field admin-field-wide">
+                    <label for="newsTitle">Headline <span aria-hidden="true">*</span></label>
+                    <input id="newsTitle" name="Title" maxlength="240" required value="@Model.Article?.Title" autocomplete="off" />
+                </div>
+                <div class="admin-field">
+                    <label for="newsSlug">URL slug</label>
+                    <input id="newsSlug" name="Slug" maxlength="180" value="@Model.Article?.Slug" autocomplete="off" />
+                    <small>Generated from the headline. You can edit it; use letters, numbers, and hyphens.</small>
+                </div>
+                <div class="admin-field">
+                    <label for="newsGenre">Topic <span aria-hidden="true">*</span></label>
+                    <select id="newsGenre" name="GenreId" required>
+                        <option value="">Choose a topic</option>
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <option value="@genre.ID" selected="@(Model.Article?.GenreID == genre.ID)">@genre.NameGenre</option>
+                        }
+                    </select>
+                </div>
+                <div class="admin-field">
+                    <label for="newsAuthor">Byline</label>
+                    <select id="newsAuthor" name="AuthorId">
+                        <option value="">Anonymous</option>
+                        @foreach (var author in Model.Authors)
+                        {
+                            <option value="@author.ID" selected="@(Model.Article?.AuthorID == author.ID)">@author.FullName</option>
+                        }
+                    </select>
+                </div>
+                <div class="admin-field admin-field-wide">
+                    <label for="newsSummary">Summary</label>
+                    <textarea id="newsSummary" name="Summary" rows="3" maxlength="320">@Model.Article?.Summary</textarea>
+                    <small>Optional short text for article cards. Existing articles can use an automatic excerpt.</small>
+                </div>
+                <div class="admin-field admin-field-wide">
+                    <label for="newsImage">Cover image URL</label>
+                    <input id="newsImage" name="ImageUrl" type="text" maxlength="2048" value="@Model.Article?.Image" placeholder="https://… or /images/articles/…" />
+                    <small>Use an HTTPS image URL or an image already stored under the site's /images/ folder.</small>
+                </div>
+                <div class="admin-field admin-field-wide">
+                    <label for="newsBody">Article body (Markdown) <span aria-hidden="true">*</span></label>
+                    <textarea id="newsBody" name="BodyMarkdown" rows="18" maxlength="100000" required>@Model.Article?.Info</textarea>
+                    <small>Basic Markdown is supported: headings, paragraphs, lists, links, emphasis, and code blocks. HTML is disabled.</small>
+                </div>
+            </div>
+
+            <div id="editorMessage" class="admin-alert" role="status" aria-live="polite" hidden></div>
+            <div class="admin-actions">
+                <button type="submit" class="btn-secondary" data-action="save">@(Model.Status == "published" ? "Save live changes" : "Save draft")</button>
+                @if (Model.Status != "published")
+                {
+                    <button type="submit" class="btn-primary" data-action="publish">Publish now</button>
+                }
+            </div>
+        </form>
+    }
+</section>
+
+<script src="~/js/admin-news.js" asp-append-version="true"></script>

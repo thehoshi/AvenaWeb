@@ -21,7 +21,12 @@
             <div class="news-grid">
                 @foreach (var news in Model.News)
                 {
-                    var excerpt = news.Info.Length > 140 ? news.Info.Substring(0, 140).TrimEnd() + "…" : news.Info;
+                    var excerpt = !string.IsNullOrWhiteSpace(news.Summary)
+                        ? news.Summary
+                        : news.Info.Length > 140 ? news.Info.Substring(0, 140).TrimEnd() + "…" : news.Info;
+                    var articleUrl = !string.IsNullOrWhiteSpace(news.Slug)
+                        ? $"/news/{System.Uri.EscapeDataString(news.Slug)}"
+                        : $"/news/{news.ID}";
 
                     <article class="news-card">
                         @if (!string.IsNullOrEmpty(news.Image))
@@ -32,10 +37,10 @@
                         {
                             <div class="card-image ph-img" data-label="Image"></div>
                         }
-                        <h4><a href="/news/@news.ID">@news.Title</a></h4>
+                        <h4><a href="@articleUrl">@news.Title</a></h4>
                         <p>@excerpt</p>
                         <p class="genre-card-meta"><span class="localized-date" data-date="@news.DateOfPost.ToString("o")"></span> · <span class="localized-views" data-count="@news.Views"></span></p>
-                        <a href="/news/@news.ID" class="read-more"><span data-i18n="common.read_more">Read More</span> <span aria-hidden="true">→</span></a>
+                        <a href="@articleUrl" class="read-more"><span data-i18n="common.read_more">Read More</span> <span aria-hidden="true">→</span></a>
                     </article>
                 }
             </div>

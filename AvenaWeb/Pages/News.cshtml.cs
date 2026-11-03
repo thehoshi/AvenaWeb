@@ -26,19 +26,22 @@ public class NewsModel : PageModel
         _commentRepository = commentRepository;
     }
 
-    public IActionResult OnGet(int id)
+    public IActionResult OnGet(string slug)
     {
-        News = _newsRepository.GetByID(id);
+        if (int.TryParse(slug, out var id))
+            News = _newsRepository.GetByID(id);
+        else
+            News = _newsRepository.GetBySlug(slug);
 
         if (News == null)
             return NotFound();
 
-        _newsRepository.IncrementViews(id);
+        _newsRepository.IncrementViews(News.ID);
         News.Views += 1;
 
         Genre = _genreRepository.GetByID(News.GenreID);
 
-        Comments = _commentRepository.GetByNewsIdWithUser(id);
+        Comments = _commentRepository.GetByNewsIdWithUser(News.ID);
 
         return Page();
     }
@@ -52,7 +55,7 @@ public class NewsModel : PageModel
 
         if (string.IsNullOrWhiteSpace(CommentText))
         {
-            return RedirectToPage("/News", new { id = NewsId });
+            return RedirectToPage("/News", new { slug = NewsId });
         }
 
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -73,12 +76,12 @@ public class NewsModel : PageModel
 
         _commentRepository.Insert(comment);
 
-        return RedirectToPage("/News", new { id = NewsId });
+            return RedirectToPage("/News", new { slug = NewsId });
     }
     public IActionResult OnPostLike(int id)
     {
         _newsRepository.AddLike(id);
 
-        return RedirectToPage("/News", new { id });
+        return RedirectToPage("/News", new { slug = id });
     }
 }

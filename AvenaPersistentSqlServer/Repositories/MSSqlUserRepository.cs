@@ -24,7 +24,7 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = """
-                    SELECT "ID", "Username", "Name", "Password", "AvatarImg"
+                    SELECT "ID", "Username", "Name", "Password", "AvatarImg", "IsAdmin"
                     FROM "User"
                     """;
 
@@ -39,7 +39,8 @@ namespace AvenaPersistentSqlServer.Repositories
                             Username = (string)reader["Username"],
                             Name = (string)reader["Name"],
                             Password = (string)reader["Password"],
-                            AvatarImg = reader.IsDBNull(reader.GetOrdinal("AvatarImg")) ? string.Empty : (string)reader["AvatarImg"]
+                            AvatarImg = reader.IsDBNull(reader.GetOrdinal("AvatarImg")) ? string.Empty : (string)reader["AvatarImg"],
+                            IsAdmin = Convert.ToBoolean(reader["IsAdmin"])
                         });
                     }
                 }
@@ -59,7 +60,7 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = """
-                    SELECT "ID", "Username", "Name", "Password", "AvatarImg"
+                    SELECT "ID", "Username", "Name", "Password", "AvatarImg", "IsAdmin"
                     FROM "User"
                     WHERE LOWER("Username") = LOWER(@Username)
                     """;
@@ -78,7 +79,8 @@ namespace AvenaPersistentSqlServer.Repositories
                                 Username = (string)reader["Username"],
                                 Name = (string)reader["Name"],
                                 Password = (string)reader["Password"],
-                                AvatarImg = reader.IsDBNull(reader.GetOrdinal("AvatarImg")) ? string.Empty : (string)reader["AvatarImg"]
+                                AvatarImg = reader.IsDBNull(reader.GetOrdinal("AvatarImg")) ? string.Empty : (string)reader["AvatarImg"],
+                                IsAdmin = Convert.ToBoolean(reader["IsAdmin"])
                             };
                         }
                     }
@@ -99,7 +101,7 @@ namespace AvenaPersistentSqlServer.Repositories
                 connection.Open();
 
                 string query = """
-                    SELECT "ID", "Username", "Name", "Password", "AvatarImg"
+                    SELECT "ID", "Username", "Name", "Password", "AvatarImg", "IsAdmin"
                     FROM "User"
                     WHERE "ID" = @ID
                     """;
@@ -118,7 +120,8 @@ namespace AvenaPersistentSqlServer.Repositories
                                 Username = (string)reader["Username"],
                                 Name = (string)reader["Name"],
                                 Password = (string)reader["Password"],
-                                AvatarImg = reader.IsDBNull(reader.GetOrdinal("AvatarImg")) ? string.Empty : (string)reader["AvatarImg"]
+                                AvatarImg = reader.IsDBNull(reader.GetOrdinal("AvatarImg")) ? string.Empty : (string)reader["AvatarImg"],
+                                IsAdmin = Convert.ToBoolean(reader["IsAdmin"])
                             };
                         }
                     }

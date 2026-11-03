@@ -86,7 +86,12 @@
         else
         {
             var featuredGenre = Model.Genres.FirstOrDefault(g => g.ID == featured.GenreID);
-            var featuredExcerpt = featured.Info.Length > 220 ? featured.Info.Substring(0, 220).TrimEnd() + "…" : featured.Info;
+            var featuredExcerpt = !string.IsNullOrWhiteSpace(featured.Summary)
+                ? featured.Summary
+                : featured.Info.Length > 220 ? featured.Info.Substring(0, 220).TrimEnd() + "…" : featured.Info;
+            var featuredUrl = !string.IsNullOrWhiteSpace(featured.Slug)
+                ? $"/news/{System.Uri.EscapeDataString(featured.Slug)}"
+                : $"/news/{featured.ID}";
 
             <article class="featured-article">
                 @if (!string.IsNullOrEmpty(featured.Image))
@@ -104,7 +109,7 @@
                     }
                     <h3>@featured.Title</h3>
                     <p>@featuredExcerpt</p>
-                    <a href="/news/@featured.ID" class="read-more"><span data-i18n="common.read_more">Read More</span> <span aria-hidden="true">→</span></a>
+                    <a href="@featuredUrl" class="read-more"><span data-i18n="common.read_more">Read More</span> <span aria-hidden="true">→</span></a>
                 </div>
             </article>
 
@@ -114,6 +119,9 @@
                     @foreach (var news in rest)
                     {
                         var genre = Model.Genres.FirstOrDefault(g => g.ID == news.GenreID);
+                        var articleUrl = !string.IsNullOrWhiteSpace(news.Slug)
+                            ? $"/news/{System.Uri.EscapeDataString(news.Slug)}"
+                            : $"/news/{news.ID}";
 
                         <article class="news-card">
                             @if (!string.IsNullOrEmpty(news.Image))
@@ -128,8 +136,8 @@
                             {
                                 <span class="tag" data-genre="@genre.NameGenre">@genre.NameGenre</span>
                             }
-                            <h4><a href="/news/@news.ID">@news.Title</a></h4>
-                            <a href="/news/@news.ID" class="read-more"><span data-i18n="common.read_more">Read More</span> <span aria-hidden="true">→</span></a>
+                            <h4><a href="@articleUrl">@news.Title</a></h4>
+                            <a href="@articleUrl" class="read-more"><span data-i18n="common.read_more">Read More</span> <span aria-hidden="true">→</span></a>
                         </article>
                     }
                 </div>

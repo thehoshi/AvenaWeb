@@ -33,6 +33,10 @@
                 <a asp-page="/Index" asp-fragment="news" data-i18n="nav.news">News</a>
                 @if (User.Identity?.IsAuthenticated == true)
                 {
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-page="/Admin/News/Index">Admin</a>
+                    }
                     <a asp-page="/Profile" data-i18n="nav.profile">Profile</a>
                     <form method="post" asp-page="/Logout">
                         <button type="submit" data-i18n="nav.logout">Logout</button>

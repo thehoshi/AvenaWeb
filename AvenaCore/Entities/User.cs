@@ -12,5 +12,6 @@ namespace AvenaCore.Entities
         public required string Name { get; set; }
         public required string Password { get; set; }
         public required string AvatarImg { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

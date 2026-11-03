@@ -61,6 +61,8 @@ public class LoginModel : PageModel
             new(ClaimTypes.NameIdentifier, user.ID.ToString()),
             new(ClaimTypes.Name, user.Username)
         };
+        if (user.IsAdmin)
+            claims.Add(new Claim(ClaimTypes.Role, "Admin"));
         var identity = new ClaimsIdentity(claims, AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
         return HttpContext.SignInAsync(AuthenticationScheme, principal, new AuthenticationProperties
