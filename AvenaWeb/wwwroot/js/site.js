@@ -60,6 +60,35 @@
         }
     };
 
+    const adminTranslations = {
+        en: {
+            "nav.admin": "Admin", "nav.main_menu": "Main menu", "nav.open_menu": "Open menu", "nav.close_menu": "Close menu", "nav.theme": "Toggle theme", "nav.language": "Language",
+            "admin.back": "← All articles", "admin.newsroom": "Avena newsroom", "admin.create_article": "Create article", "admin.edit_article": "Edit article", "admin.current_status": "Current status:", "admin.status.draft": "draft", "admin.status.published": "published",
+            "admin.headline": "Headline *", "admin.slug": "URL slug", "admin.slug_help": "Generated from the headline; edit with letters, numbers, and hyphens.", "admin.topic": "Topic *", "admin.choose_topic": "Choose a topic", "admin.add_topic": "+ Add topic", "admin.new_topic": "New topic name", "admin.create_topic": "Create topic", "admin.byline": "Byline", "admin.author_placeholder": "Type an author name (optional)", "admin.summary": "Summary", "admin.summary_help": "Optional short text for article cards.", "admin.cover_image": "Cover image", "admin.cover_image_help": "Choose a JPG, PNG, or WebP image from your device. Maximum 5 MB.", "admin.body": "Article body (Markdown) *", "admin.body_help": "Supports headings, paragraphs, lists, links, emphasis, and code blocks. Raw HTML is disabled.", "admin.save_live": "Save live changes", "admin.save_draft": "Save draft", "admin.publish": "Publish now",
+            "admin.index_title": "News administration", "admin.manage": "Manage news", "admin.manage_help": "Write articles, keep drafts private, and publish when ready.", "admin.no_articles": "No articles yet", "admin.no_articles_help": "Create a draft to start writing.", "admin.article": "Article", "admin.status_label": "Status", "admin.updated": "Last updated", "admin.actions": "Actions", "admin.edit": "Edit", "admin.last_updated": "Last updated:",
+            "admin.message.required": "A headline and article body are required.", "admin.message.slug": "The slug may contain letters, numbers, and hyphens only.", "admin.message.duplicateSlug": "That URL slug is already in use. Choose a different one.", "admin.message.chooseTopic": "Choose a valid topic.", "admin.message.imagePath": "Use an HTTPS image URL or choose an uploaded image.", "admin.message.topicLength": "A topic name must be between 2 and 80 characters.", "admin.message.bylineLength": "The byline must be 160 characters or fewer.", "admin.message.chooseImage": "Choose an image file first.", "admin.message.imageSize": "Images must be 5 MB or smaller.", "admin.message.imageType": "Use a valid JPG, PNG, or WebP image.", "admin.message.session": "Your admin session has expired. Sign in again and retry.", "admin.message.saveFailed": "The article could not be saved.", "admin.message.topicFailed": "The topic could not be created.", "admin.message.uploadFailed": "The image could not be uploaded.", "admin.message.uploading": "Uploading image…", "admin.message.uploaded": "Image uploaded and ready to use."
+        },
+        ru: {
+            "nav.admin": "Админ", "nav.main_menu": "Главное меню", "nav.open_menu": "Открыть меню", "nav.close_menu": "Закрыть меню", "nav.theme": "Сменить тему", "nav.language": "Язык",
+            "admin.back": "← Все статьи", "admin.newsroom": "Редакция Avena", "admin.create_article": "Создать статью", "admin.edit_article": "Редактировать статью", "admin.current_status": "Текущий статус:", "admin.status.draft": "черновик", "admin.status.published": "опубликовано",
+            "admin.headline": "Заголовок *", "admin.slug": "Ссылка статьи", "admin.slug_help": "Создаётся из заголовка; можно использовать буквы, цифры и дефисы.", "admin.topic": "Тема *", "admin.choose_topic": "Выберите тему", "admin.add_topic": "+ Добавить тему", "admin.new_topic": "Название новой темы", "admin.create_topic": "Создать тему", "admin.byline": "Автор", "admin.author_placeholder": "Введите имя автора (необязательно)", "admin.summary": "Краткое описание", "admin.summary_help": "Необязательный короткий текст для карточки статьи.", "admin.cover_image": "Обложка", "admin.cover_image_help": "Выберите JPG, PNG или WebP с устройства. Максимум 5 МБ.", "admin.body": "Текст статьи (Markdown) *", "admin.body_help": "Поддерживаются заголовки, абзацы, списки, ссылки, выделение и блоки кода. HTML отключён.", "admin.save_live": "Сохранить изменения", "admin.save_draft": "Сохранить черновик", "admin.publish": "Опубликовать",
+            "admin.index_title": "Управление новостями", "admin.manage": "Управление новостями", "admin.manage_help": "Пишите статьи, сохраняйте черновики и публикуйте их, когда будете готовы.", "admin.no_articles": "Статей пока нет", "admin.no_articles_help": "Создайте черновик, чтобы начать.", "admin.article": "Статья", "admin.status_label": "Статус", "admin.updated": "Изменено", "admin.actions": "Действия", "admin.edit": "Изменить", "admin.last_updated": "Обновлено:",
+            "admin.message.required": "Нужны заголовок и текст статьи.", "admin.message.slug": "Ссылка может содержать только буквы, цифры и дефисы.", "admin.message.duplicateSlug": "Такая ссылка уже используется. Выберите другую.", "admin.message.chooseTopic": "Выберите существующую тему.", "admin.message.imagePath": "Укажите HTTPS-ссылку или выберите загруженное изображение.", "admin.message.topicLength": "Название темы должно содержать от 2 до 80 символов.", "admin.message.bylineLength": "Имя автора должно содержать не более 160 символов.", "admin.message.chooseImage": "Сначала выберите изображение.", "admin.message.imageSize": "Размер изображения не должен превышать 5 МБ.", "admin.message.imageType": "Выберите изображение JPG, PNG или WebP.", "admin.message.session": "Сессия администратора истекла. Войдите снова.", "admin.message.saveFailed": "Не удалось сохранить статью.", "admin.message.topicFailed": "Не удалось создать тему.", "admin.message.uploadFailed": "Не удалось загрузить изображение.", "admin.message.uploading": "Загрузка изображения…", "admin.message.uploaded": "Изображение загружено."
+        },
+        az: {
+            "nav.admin": "Admin", "nav.main_menu": "Əsas menyu", "nav.open_menu": "Menyunu aç", "nav.close_menu": "Menyunu bağla", "nav.theme": "Mövzunu dəyiş", "nav.language": "Dil",
+            "admin.back": "← Bütün məqalələr", "admin.newsroom": "Avena redaksiyası", "admin.create_article": "Məqalə yarat", "admin.edit_article": "Məqaləni redaktə et", "admin.current_status": "Cari status:", "admin.status.draft": "qaralama", "admin.status.published": "dərc edilib",
+            "admin.headline": "Başlıq *", "admin.slug": "URL ünvanı", "admin.slug_help": "Başlıqdan yaradılır; hərflər, rəqəmlər və defislərdən istifadə edin.", "admin.topic": "Mövzu *", "admin.choose_topic": "Mövzu seçin", "admin.add_topic": "+ Mövzu əlavə et", "admin.new_topic": "Yeni mövzunun adı", "admin.create_topic": "Mövzu yarat", "admin.byline": "Müəllif", "admin.author_placeholder": "Müəllif adını yazın (istəyə bağlı)", "admin.summary": "Qısa təsvir", "admin.summary_help": "Məqalə kartı üçün qısa mətn (istəyə bağlıdır).", "admin.cover_image": "Üz qabığı şəkli", "admin.cover_image_help": "Cihazınızdan JPG, PNG və ya WebP şəkli seçin. Maksimum 5 MB.", "admin.body": "Məqalənin mətni (Markdown) *", "admin.body_help": "Başlıqlar, abzaslar, siyahılar, keçidlər və kod blokları dəstəklənir. HTML söndürülüb.", "admin.save_live": "Dəyişiklikləri saxla", "admin.save_draft": "Qaralamanı saxla", "admin.publish": "İndi dərc et",
+            "admin.index_title": "Xəbərlərin idarəsi", "admin.manage": "Xəbərləri idarə et", "admin.manage_help": "Məqalə yazın, qaralamaları saxlayın və hazır olduqda dərc edin.", "admin.no_articles": "Hələ məqalə yoxdur", "admin.no_articles_help": "Yazmağa başlamaq üçün qaralama yaradın.", "admin.article": "Məqalə", "admin.status_label": "Status", "admin.updated": "Son yenilənmə", "admin.actions": "Əməliyyatlar", "admin.edit": "Redaktə et", "admin.last_updated": "Son yenilənmə:",
+            "admin.message.required": "Başlıq və məqalə mətni tələb olunur.", "admin.message.slug": "URL ünvanında yalnız hərflər, rəqəmlər və defislər ola bilər.", "admin.message.duplicateSlug": "Bu URL ünvanı artıq istifadə olunur. Başqasını seçin.", "admin.message.chooseTopic": "Mövcud mövzu seçin.", "admin.message.imagePath": "HTTPS keçidi daxil edin və ya yüklənmiş şəkil seçin.", "admin.message.topicLength": "Mövzunun adı 2–80 simvol olmalıdır.", "admin.message.bylineLength": "Müəllif adı ən çox 160 simvol ola bilər.", "admin.message.chooseImage": "Əvvəlcə şəkil seçin.", "admin.message.imageSize": "Şəklin ölçüsü 5 MB-dan çox olmamalıdır.", "admin.message.imageType": "JPG, PNG və ya WebP şəkli seçin.", "admin.message.session": "Admin sessiyasının vaxtı bitib. Yenidən daxil olun.", "admin.message.saveFailed": "Məqaləni saxlamaq mümkün olmadı.", "admin.message.topicFailed": "Mövzunu yaratmaq mümkün olmadı.", "admin.message.uploadFailed": "Şəkli yükləmək mümkün olmadı.", "admin.message.uploading": "Şəkil yüklənir…", "admin.message.uploaded": "Şəkil yükləndi."
+        }
+    };
+    for (const language of Object.keys(adminTranslations)) Object.assign(translations[language], adminTranslations[language]);
+    window.avenaAdminMessages = Object.fromEntries(Object.entries(adminTranslations).map(([language, entries]) => [
+        language,
+        Object.fromEntries(Object.entries(entries).filter(([key]) => key.startsWith("admin.message.")).map(([key, value]) => [key.slice("admin.message.".length), value]))
+    ]));
+
     const genreTranslations = {
         en: { Technology: "Technology", Education: "Education", "Language & Culture": "Language & Culture", "Law & AI": "Law & AI", "International Relations": "International Relations", "Science & Health": "Science & Health" },
         ru: { Technology: "Технологии", Education: "Образование", "Language & Culture": "Язык и культура", "Law & AI": "Право и ИИ", "International Relations": "Международные отношения", "Science & Health": "Наука и здоровье" },
@@ -77,6 +106,11 @@
         root.dataset.theme = theme;
         localStorage.setItem("avena-theme", theme);
         if (themeToggle) themeToggle.textContent = theme === "dark" ? "☀" : "☾";
+        if (themeToggle) {
+            const label = translations[root.dataset.language]?.["nav.theme"] || "Toggle theme";
+            themeToggle.setAttribute("aria-label", label);
+            themeToggle.title = label;
+        }
     }
 
     const serverErrors = {
@@ -130,6 +164,12 @@
         localStorage.setItem("avena-language", language);
         if (languageSelect) languageSelect.value = language;
         translateStatic(language);
+        const dict = translations[language];
+        const menuOpen = navToggle?.getAttribute("aria-expanded") === "true";
+        navLinks?.setAttribute("aria-label", dict["nav.main_menu"] || "Main menu");
+        navToggle?.setAttribute("aria-label", dict[menuOpen ? "nav.close_menu" : "nav.open_menu"] || "Open menu");
+        if (navToggle) navToggle.title = dict[menuOpen ? "nav.close_menu" : "nav.open_menu"] || "Open menu";
+        languageSelect?.setAttribute("aria-label", dict["nav.language"] || "Language");
     }
 
     applyTheme(localStorage.getItem("avena-theme") || "light");
@@ -141,11 +181,41 @@
     navToggle?.addEventListener("click", () => {
         const open = navLinks.classList.toggle("open");
         navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        const language = root.dataset.language || "en";
+        const labelKey = open ? "nav.close_menu" : "nav.open_menu";
+        navToggle.setAttribute("aria-label", translations[language][labelKey]);
+        navToggle.title = translations[language][labelKey];
     });
     document.addEventListener("click", event => {
         if (navToggle && navLinks && !navToggle.contains(event.target) && !navLinks.contains(event.target)) {
             navLinks.classList.remove("open");
             navToggle.setAttribute("aria-expanded", "false");
+            const language = root.dataset.language || "en";
+            navToggle.setAttribute("aria-label", translations[language]["nav.open_menu"]);
+            navToggle.title = translations[language]["nav.open_menu"];
+        }
+    });
+    navLinks?.addEventListener("click", event => {
+        if (event.target.closest("a, form button")) {
+            navLinks.classList.remove("open");
+            navToggle?.setAttribute("aria-expanded", "false");
+            const language = root.dataset.language || "en";
+            if (navToggle) {
+                navToggle.setAttribute("aria-label", translations[language]["nav.open_menu"]);
+                navToggle.title = translations[language]["nav.open_menu"];
+            }
+        }
+    });
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && navLinks?.classList.contains("open")) {
+            navLinks.classList.remove("open");
+            navToggle?.setAttribute("aria-expanded", "false");
+            navToggle?.focus();
+            const language = root.dataset.language || "en";
+            if (navToggle) {
+                navToggle.setAttribute("aria-label", translations[language]["nav.open_menu"]);
+                navToggle.title = translations[language]["nav.open_menu"];
+            }
         }
     });
 })();

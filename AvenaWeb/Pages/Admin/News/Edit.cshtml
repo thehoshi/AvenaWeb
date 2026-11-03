@@ -1,88 +1,42 @@
 @page "{id:int?}"
 @model AvenaWeb.Pages.Admin.News.EditModel
 @{
-    ViewData["Title"] = Model.Article == null ? "Create news article" : "Edit news article";
+    ViewData["Title"] = Model.Article == null ? "Create news article" : "Edit news article"; ViewData["I18nTitle"] = Model.Article == null ? "admin.create_article" : "admin.edit_article";
 }
-
 <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
 <section class="admin-page section-inner">
     <div class="admin-header">
         <div>
-            <a class="admin-back-link" asp-page="./Index">← All articles</a>
-            <p class="eyebrow">Avena newsroom</p>
-            <h1>@(Model.Article == null ? "Create article" : "Edit article")</h1>
+            <a class="admin-back-link" asp-page="./Index" data-i18n="admin.back">← All articles</a>
+            <p class="eyebrow" data-i18n="admin.newsroom">Avena newsroom</p><h1 data-i18n="@(Model.Article == null ? "admin.create_article" : "admin.edit_article")">@(Model.Article == null ? "Create article" : "Edit article")</h1>
             @if (Model.Article != null)
             {
-                <p>Current status: <span class="admin-status @Model.Status">@Model.Status</span></p>
+                <p><span data-i18n="admin.current_status">Current status:</span> <span class="admin-status @Model.Status" data-i18n="admin.status.@Model.Status">@Model.Status</span></p>
             }
         </div>
     </div>
-
-    @if (!Model.Genres.Any())
-    {
-        <div class="admin-alert error" role="alert">Add at least one topic before creating an article.</div>
-    }
-    else
-    {
-        <form id="newsEditor" class="admin-editor" method="post" data-news-id="@Model.Id">
-            @Html.AntiForgeryToken()
-            <div class="admin-form-grid">
-                <div class="admin-field admin-field-wide">
-                    <label for="newsTitle">Headline <span aria-hidden="true">*</span></label>
-                    <input id="newsTitle" name="Title" maxlength="240" required value="@Model.Article?.Title" autocomplete="off" />
-                </div>
-                <div class="admin-field">
-                    <label for="newsSlug">URL slug</label>
-                    <input id="newsSlug" name="Slug" maxlength="180" value="@Model.Article?.Slug" autocomplete="off" />
-                    <small>Generated from the headline. You can edit it; use letters, numbers, and hyphens.</small>
-                </div>
-                <div class="admin-field">
-                    <label for="newsGenre">Topic <span aria-hidden="true">*</span></label>
-                    <select id="newsGenre" name="GenreId" required>
-                        <option value="">Choose a topic</option>
-                        @foreach (var genre in Model.Genres)
-                        {
-                            <option value="@genre.ID" selected="@(Model.Article?.GenreID == genre.ID)">@genre.NameGenre</option>
-                        }
-                    </select>
-                </div>
-                <div class="admin-field">
-                    <label for="newsAuthor">Byline</label>
-                    <select id="newsAuthor" name="AuthorId">
-                        <option value="">Anonymous</option>
-                        @foreach (var author in Model.Authors)
-                        {
-                            <option value="@author.ID" selected="@(Model.Article?.AuthorID == author.ID)">@author.FullName</option>
-                        }
-                    </select>
-                </div>
-                <div class="admin-field admin-field-wide">
-                    <label for="newsSummary">Summary</label>
-                    <textarea id="newsSummary" name="Summary" rows="3" maxlength="320">@Model.Article?.Summary</textarea>
-                    <small>Optional short text for article cards. Existing articles can use an automatic excerpt.</small>
-                </div>
-                <div class="admin-field admin-field-wide">
-                    <label for="newsImage">Cover image URL</label>
-                    <input id="newsImage" name="ImageUrl" type="text" maxlength="2048" value="@Model.Article?.Image" placeholder="https://… or /images/articles/…" />
-                    <small>Use an HTTPS image URL or an image already stored under the site's /images/ folder.</small>
-                </div>
-                <div class="admin-field admin-field-wide">
-                    <label for="newsBody">Article body (Markdown) <span aria-hidden="true">*</span></label>
-                    <textarea id="newsBody" name="BodyMarkdown" rows="18" maxlength="100000" required>@Model.Article?.Info</textarea>
-                    <small>Basic Markdown is supported: headings, paragraphs, lists, links, emphasis, and code blocks. HTML is disabled.</small>
-                </div>
-            </div>
-
-            <div id="editorMessage" class="admin-alert" role="status" aria-live="polite" hidden></div>
-            <div class="admin-actions">
-                <button type="submit" class="btn-secondary" data-action="save">@(Model.Status == "published" ? "Save live changes" : "Save draft")</button>
-                @if (Model.Status != "published")
-                {
-                    <button type="submit" class="btn-primary" data-action="publish">Publish now</button>
-                }
-            </div>
-        </form>
-    }
+    <form id="newsEditor" class="admin-editor" method="post" data-news-id="@Model.Id">
+        @Html.AntiForgeryToken()
+        <div class="admin-form-grid">
+            <div class="admin-field admin-field-wide"><label for="newsTitle" data-i18n="admin.headline">Headline *</label><input id="newsTitle" maxlength="240" required value="@Model.Article?.Title" autocomplete="off" /></div>
+            <div class="admin-field"><label for="newsSlug" data-i18n="admin.slug">URL slug</label><input id="newsSlug" maxlength="180" value="@Model.Article?.Slug" autocomplete="off" /><small data-i18n="admin.slug_help">Generated from the headline; edit with letters, numbers, and hyphens.</small></div>
+            <div class="admin-field"><label for="newsGenre" data-i18n="admin.topic">Topic *</label><select id="newsGenre" required><option value="" data-i18n="admin.choose_topic">Choose a topic</option>@foreach (var genre in Model.Genres) {
+                <option value="@genre.ID" data-genre="@genre.NameGenre" selected="@(Model.Article?.GenreID == genre.ID ? "selected" : null)">@genre.NameGenre</option>
+            }
+        </select><button type="button" class="admin-inline-button" id="showTopicCreator" data-i18n="admin.add_topic">+ Add topic</button><div class="admin-inline-create" id="topicCreator" hidden><label for="newTopicName" data-i18n="admin.new_topic">New topic name</label><div class="admin-inline-row"><input id="newTopicName" maxlength="80" /><button type="button" class="btn-secondary" id="createTopic" data-i18n="admin.create_topic">Create topic</button></div></div></div>
+        <div class="admin-field"><label for="newsAuthor" data-i18n="admin.byline">Byline</label><input id="newsAuthor" maxlength="160" value="@Model.Article?.Author?.FullName" placeholder="Type an author name (optional)" data-i18n-placeholder="admin.author_placeholder" /></div>
+        <div class="admin-field admin-field-wide"><label for="newsSummary" data-i18n="admin.summary">Summary</label><textarea id="newsSummary" rows="3" maxlength="320">@Model.Article?.Summary</textarea><small data-i18n="admin.summary_help">Optional short text for article cards.</small></div>
+        <div class="admin-field admin-field-wide"><label for="newsImageFile" data-i18n="admin.cover_image">Cover image</label><input id="newsImage" type="hidden" value="@Model.Article?.Image" /><input id="newsImageFile" type="file" accept="image/png,image/jpeg,image/webp" /><small data-i18n="admin.cover_image_help">Choose a JPG, PNG, or WebP image from your device. Maximum 5 MB.</small><div id="imageUploadMessage" class="admin-upload-message" role="status" aria-live="polite"></div><img id="imagePreview" class="admin-image-preview" src="@Model.Article?.Image" alt="" hidden="@(string.IsNullOrWhiteSpace(Model.Article?.Image) ? "hidden" : null)" /></div>
+        <div class="admin-field admin-field-wide"><label for="newsBody" data-i18n="admin.body">Article body (Markdown) *</label><textarea id="newsBody" rows="18" maxlength="100000" required>@Model.Article?.Info</textarea><small data-i18n="admin.body_help">Supports headings, paragraphs, lists, links, emphasis, and code blocks. Raw HTML is disabled.</small></div>
+    </div>
+    <div id="editorMessage" class="admin-alert" role="status" aria-live="polite" hidden></div>
+    <div class="admin-actions">
+        <button type="submit" class="btn-secondary" data-action="save" data-i18n="@(Model.Status == "published" ? "admin.save_live" : "admin.save_draft")">@(Model.Status == "published" ? "Save live changes" : "Save draft")</button>
+        @if (Model.Status != "published")
+        {
+            <button type="submit" class="btn-primary" data-action="publish" data-i18n="admin.publish">Publish now</button>
+        }
+    </div>
+</form>
 </section>
-
 <script src="~/js/admin-news.js" asp-append-version="true"></script>
