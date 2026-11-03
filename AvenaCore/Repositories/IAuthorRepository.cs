@@ -6,4 +6,5 @@ public interface IAuthorRepository
 {
     List<Author> GetAll();
     Author? GetByID(int id);
+    int GetOrCreateByName(string fullName);
 }
